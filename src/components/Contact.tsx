@@ -113,7 +113,7 @@ export default function Contact() {
 
                   {/* Phone Card */}
                   <a
-                    href="tel:+254794921010"
+                    href="tel:+254721881858"
                     className="group flex items-center gap-4 p-6 bg-white hover:bg-gray-50 rounded-2xl transition-all duration-300 border border-gray-200 hover:border-gray-900 hover:shadow-lg"
                   >
                     <div className="p-4 bg-gray-50 rounded-xl group-hover:bg-gray-900 transition-colors duration-300">
@@ -121,7 +121,7 @@ export default function Contact() {
                     </div>
                     <div className="flex-1">
                       <h4 className="font-semibold text-gray-900 mb-1">Phone</h4>
-                      <p className="text-gray-600 text-sm">+254 794 921 010</p>
+                      <p className="text-gray-600 text-sm">+254 721 881 858</p>
                     </div>
                     <div className="opacity-0 group-hover:opacity-100 transition-opacity">
                       <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
