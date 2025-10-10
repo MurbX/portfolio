@@ -12,7 +12,7 @@ export default function Footer() {
           {/* Social Links */}
           <div className="flex gap-4">
             <a
-              href="https://www.linkedin.com/in/brianmutuku"
+              href="https://www.linkedin.com/in/brian-mutuku-developer/"
               target="_blank"
               rel="noopener noreferrer"
               className="p-3 bg-gray-100 hover:bg-gray-900 hover:text-white rounded-lg transition-all duration-300"
@@ -30,7 +30,7 @@ export default function Footer() {
               <Github size={20} />
             </a>
             <a
-              href="https://twitter.com/brianmutuku"
+              href="https://x.com/MurbBrian_ke"
               target="_blank"
               rel="noopener noreferrer"
               className="p-3 bg-gray-100 hover:bg-gray-900 hover:text-white rounded-lg transition-all duration-300"

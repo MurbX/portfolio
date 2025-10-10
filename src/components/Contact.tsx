@@ -143,7 +143,7 @@ export default function Contact() {
                 <h3 className="font-bold mb-6 text-gray-900 text-lg">Follow Me</h3>
                 <div className="flex gap-4">
                   <a
-                    href="https://www.linkedin.com/in/brianmutuku"
+                    href="https://www.linkedin.com/in/brian-mutuku-developer/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 p-4 bg-gray-50 hover:bg-gray-900 hover:text-white rounded-xl transition-all duration-300 flex items-center justify-center group"
@@ -159,7 +159,7 @@ export default function Contact() {
                     <Github size={24} className="group-hover:scale-110 transition-transform" />
                   </a>
                   <a
-                    href="https://twitter.com/brianmutuku"
+                    href="https://x.com/MurbBrian_ke"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex-1 p-4 bg-gray-50 hover:bg-gray-900 hover:text-white rounded-xl transition-all duration-300 flex items-center justify-center group"

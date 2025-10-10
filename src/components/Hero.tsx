@@ -115,7 +115,7 @@ export default function Hero() {
               <span className="text-sm text-gray-500">Connect with me:</span>
               <div className="flex items-center gap-3">
                 <a
-                  href="https://www.linkedin.com/in/brianmutuku"
+                  href="https://www.linkedin.com/in/brian-mutuku-developer/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -124,7 +124,7 @@ export default function Hero() {
                   <Linkedin size={20} />
                 </a>
                 <a
-                  href="https://twitter.com/brianmutuku"
+                  href="https://x.com/MurbBrian_ke"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
