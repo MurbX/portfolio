@@ -17,10 +17,11 @@ export default function Header() {
   }, [])
 
   const navItems = [
-    { name: 'About', href: '#about' },
-    { name: 'Work', href: '#experience' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'About', href: '/#about' },
+    { name: 'Work', href: '/#experience' },
+    { name: 'Projects', href: '/#projects' },
+    { name: 'Blog', href: '/blog' },
+    { name: 'Contact', href: '/#contact' },
   ]
 
   return (
@@ -60,7 +61,7 @@ export default function Header() {
             {/* Action Buttons */}
             <div className="flex items-center gap-3">
               <a 
-                href="#contact" 
+                href="/#contact" 
                 className="px-5 py-2.5 text-gray-700 font-medium border border-gray-300 rounded-[12px] hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 inline-flex items-center gap-2 group"
               >
                 Contact

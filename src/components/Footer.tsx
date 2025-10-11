@@ -54,6 +54,9 @@ export default function Footer() {
             <a href="#projects" className="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors">
               Projects
             </a>
+            <a href="/blog" className="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors">
+              Blog
+            </a>
             <a href="#contact" className="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors">
               Contact
             </a>
