@@ -24,69 +24,14 @@ export default function Blog() {
 
   const posts: BlogPost[] = [
     {
-      id: 'getting-started-bubble-io',
-      title: 'Getting Started with Bubble.io: A Complete Guide for Beginners',
-      excerpt: 'Learn how to build your first web application using Bubble.io, the leading no-code platform. This comprehensive guide covers everything from setup to deployment.',
+      id: 'bubble-vs-traditional-code',
+      title: 'Bubble.io vs Traditional Code: Which Should You Choose?',
+      excerpt: 'An in-depth comparison of Bubble.io and traditional coding. Explore the advantages, limitations, and ideal use cases for each approach to help you make the right choice for your next project.',
       date: 'October 10, 2025',
-      readTime: '8 min read',
-      category: 'No-Code',
-      tags: ['Bubble.io', 'Tutorial', 'Beginners'],
-      image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&h=600&fit=crop',
-      author: 'Brian Mutuku'
-    },
-    {
-      id: 'bubble-api-integrations',
-      title: 'Mastering API Integrations in Bubble.io',
-      excerpt: 'Discover how to integrate external APIs into your Bubble.io applications. Learn best practices for authentication, data handling, and error management.',
-      date: 'October 5, 2025',
-      readTime: '10 min read',
-      category: 'Development',
-      tags: ['Bubble.io', 'APIs', 'Integration'],
-      image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=600&fit=crop',
-      author: 'Brian Mutuku'
-    },
-    {
-      id: 'no-code-vs-traditional',
-      title: 'No-Code vs Traditional Development: When to Use Each',
-      excerpt: 'A detailed comparison of no-code platforms and traditional coding. Understand the pros, cons, and ideal use cases for each approach.',
-      date: 'September 28, 2025',
       readTime: '12 min read',
       category: 'Insights',
-      tags: ['No-Code', 'Development', 'Comparison'],
-      image: 'https://images.unsplash.com/photo-1516116216624-53e697fedbea?w=800&h=600&fit=crop',
-      author: 'Brian Mutuku'
-    },
-    {
-      id: 'building-mvp-30-days',
-      title: 'How I Build MVPs in 30 Days Using No-Code',
-      excerpt: 'My proven process for taking an idea from concept to live product in just 30 days using no-code tools like Bubble.io and FlutterFlow.',
-      date: 'September 15, 2025',
-      readTime: '15 min read',
-      category: 'Case Study',
-      tags: ['MVP', 'No-Code', 'Process'],
-      image: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=800&h=600&fit=crop',
-      author: 'Brian Mutuku'
-    },
-    {
-      id: 'database-design-bubble',
-      title: 'Database Design Best Practices in Bubble.io',
-      excerpt: 'Learn how to structure your database in Bubble.io for optimal performance and scalability. Avoid common pitfalls and set up your data correctly from the start.',
-      date: 'September 1, 2025',
-      readTime: '14 min read',
-      category: 'Development',
-      tags: ['Bubble.io', 'Database', 'Best Practices'],
-      image: 'https://images.unsplash.com/photo-1544383835-bda2bc66a55d?w=800&h=600&fit=crop',
-      author: 'Brian Mutuku'
-    },
-    {
-      id: 'flutterflow-mobile-apps',
-      title: 'Building Beautiful Mobile Apps with FlutterFlow',
-      excerpt: 'A comprehensive guide to creating stunning mobile applications using FlutterFlow. From design to deployment on iOS and Android.',
-      date: 'August 20, 2025',
-      readTime: '11 min read',
-      category: 'Mobile',
-      tags: ['FlutterFlow', 'Mobile', 'Tutorial'],
-      image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=600&fit=crop',
+      tags: ['Bubble.io', 'Development', 'Comparison'],
+      image: 'https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=1200&h=600&fit=crop',
       author: 'Brian Mutuku'
     }
   ]
