@@ -2,43 +2,20 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
-import { Calendar, Clock, ArrowRight, Tag, Search } from 'lucide-react'
+import { Calendar, Clock, Search, Hash } from 'lucide-react'
 import { motion } from 'framer-motion'
-
-interface BlogPost {
-  id: string
-  title: string
-  excerpt: string
-  date: string
-  readTime: string
-  category: string
-  tags: string[]
-  image: string
-  author: string
-}
+import { blogPosts } from '@/lib/blog-data'
 
 export default function Blog() {
   const [selectedCategory, setSelectedCategory] = useState('All')
   const [searchQuery, setSearchQuery] = useState('')
+  const [email, setEmail] = useState('')
+  const [subscribeStatus, setSubscribeStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [subscribeMessage, setSubscribeMessage] = useState('')
 
-  const posts: BlogPost[] = [
-    {
-      id: 'bubble-vs-traditional-code',
-      title: 'Bubble.io vs Traditional Code: Which Should You Choose?',
-      excerpt: 'An in-depth comparison of Bubble.io and traditional coding. Explore the advantages, limitations, and ideal use cases for each approach to help you make the right choice for your next project.',
-      date: 'October 10, 2025',
-      readTime: '12 min read',
-      category: 'Insights',
-      tags: ['Bubble.io', 'Development', 'Comparison'],
-      image: 'https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=1200&h=600&fit=crop',
-      author: 'Brian Mutuku'
-    }
-  ]
+  const categories = ['All', 'Bubble.io', 'FlutterFlow', 'Xano', 'AI', 'Supabase']
 
-  const categories = ['All', ...Array.from(new Set(posts.map(post => post.category)))]
-
-  const filteredPosts = posts.filter(post => {
+  const filteredPosts = blogPosts.filter(post => {
     const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory
     const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -46,246 +23,203 @@ export default function Blog() {
     return matchesCategory && matchesSearch
   })
 
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!email) return
+
+    setSubscribeStatus('loading')
+    try {
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      })
+      const data = await response.json()
+      
+      if (response.ok) {
+        setSubscribeStatus('success')
+        setSubscribeMessage(data.message)
+        setEmail('')
+      } else {
+        setSubscribeStatus('error')
+        setSubscribeMessage(data.error)
+      }
+    } catch {
+      setSubscribeStatus('error')
+      setSubscribeMessage('Something went wrong. Please try again.')
+    }
+
+    setTimeout(() => {
+      setSubscribeStatus('idle')
+      setSubscribeMessage('')
+    }, 5000)
+  }
+
   return (
-    <main className="min-h-screen bg-gradient-to-b from-white via-gray-50 to-white">
+    <main className="min-h-screen bg-white">
       {/* Header */}
-      <section className="pt-32 pb-16">
+      <section className="pt-32 pb-12 bg-gradient-to-b from-gray-50 to-white">
         <div className="container-custom">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-center max-w-3xl mx-auto mb-12"
+            className="text-center max-w-3xl mx-auto"
           >
             <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
-              Blog
+              Blog & Insights
             </h1>
-            <p className="text-xl text-gray-600">
-              Insights, tutorials, and thoughts on no-code development, product design, and tech
+            <p className="text-xl text-gray-600 mb-10">
+              Tutorials, guides, and thoughts on no-code development, AI integration, and modern tech stacks.
             </p>
-          </motion.div>
 
-          {/* Search Bar */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="max-w-2xl mx-auto mb-8"
-          >
-            <div className="relative">
+            {/* Search */}
+            <div className="relative max-w-xl mx-auto mb-8">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
               <input
                 type="text"
                 placeholder="Search articles..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:border-gray-900 transition-colors"
+                className="w-full pl-12 pr-4 py-4 bg-white border border-gray-200 rounded-2xl focus:outline-none focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all shadow-sm"
               />
             </div>
-          </motion.div>
 
-          {/* Category Filter */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex flex-wrap gap-3 justify-center mb-12"
-          >
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-2 rounded-full font-medium transition-all duration-300 ${
-                  selectedCategory === category
-                    ? 'bg-gray-900 text-white shadow-lg'
-                    : 'bg-white text-gray-700 border border-gray-200 hover:border-gray-900'
-                }`}
-              >
-                {category}
-              </button>
-            ))}
+            {/* Category Filter */}
+            <div className="flex flex-wrap gap-3 justify-center">
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`px-5 py-2.5 rounded-full font-medium transition-all duration-300 ${
+                    selectedCategory === category
+                      ? 'bg-gray-900 text-white shadow-lg'
+                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Featured Post */}
-      {filteredPosts.length > 0 && (
-        <section className="pb-16">
-          <div className="container-custom">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Featured Article</h2>
-              <Link 
-                href={`/blog/${filteredPosts[0].id}`}
-                className="group block bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-gray-900 hover:shadow-2xl transition-all duration-300"
-              >
-                <div className="grid md:grid-cols-2 gap-0">
-                  <div className="relative h-64 md:h-full">
-                    <Image
-                      src={filteredPosts[0].image}
-                      alt={filteredPosts[0].title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                  </div>
-                  <div className="p-8 md:p-12 flex flex-col justify-center">
-                    <span className="inline-block px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-full mb-4 w-fit">
-                      {filteredPosts[0].category}
-                    </span>
-                    <h3 className="text-3xl font-bold text-gray-900 mb-4 group-hover:text-gray-600 transition-colors">
-                      {filteredPosts[0].title}
-                    </h3>
-                    <p className="text-gray-600 mb-6 line-clamp-3">
-                      {filteredPosts[0].excerpt}
-                    </p>
-                    <div className="flex items-center gap-4 text-sm text-gray-500 mb-6">
-                      <div className="flex items-center gap-1">
-                        <Calendar size={16} />
-                        <span>{filteredPosts[0].date}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Clock size={16} />
-                        <span>{filteredPosts[0].readTime}</span>
-                      </div>
-                    </div>
-                    <div className="inline-flex items-center gap-2 text-gray-900 font-semibold group-hover:gap-3 transition-all">
-                      Read Full Article
-                      <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
-          </div>
-        </section>
-      )}
-
       {/* Blog Posts Grid */}
-      <section className="pb-20">
+      <section className="py-16">
         <div className="container-custom">
           {filteredPosts.length === 0 ? (
             <div className="text-center py-16">
               <p className="text-gray-500 text-lg">No articles found matching your criteria.</p>
             </div>
           ) : (
-            <>
-              {filteredPosts.length > 1 && (
-                <>
-                  <h2 className="text-2xl font-bold text-gray-900 mb-6">All Articles</h2>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {filteredPosts.slice(1).map((post, index) => (
-                      <motion.article
-                        key={post.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: index * 0.1 }}
-                        className="group bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-gray-900 hover:shadow-xl transition-all duration-300"
-                      >
-                        {/* Post Image */}
-                        <Link href={`/blog/${post.id}`} className="block overflow-hidden">
-                          <div className="relative h-48 bg-gray-200">
-                            <Image
-                              src={post.image}
-                              alt={post.title}
-                              fill
-                              className="object-cover group-hover:scale-105 transition-transform duration-500"
-                            />
-                          </div>
-                        </Link>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredPosts.map((post, index) => (
+                <motion.article
+                  key={post.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.05 }}
+                  className="group bg-white rounded-2xl border border-gray-200 hover:border-gray-400 hover:shadow-xl transition-all duration-300 overflow-hidden"
+                >
+                  <Link href={`/blog/${post.id}`} className="block">
+                    {/* Image */}
+                    <div className="relative h-48 overflow-hidden bg-gray-100">
+                      <img
+                        src={post.image}
+                        alt={post.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute top-4 left-4">
+                        <span className="px-3 py-1.5 bg-white/90 backdrop-blur-sm text-gray-900 text-xs font-semibold rounded-full">
+                          {post.category}
+                        </span>
+                      </div>
+                    </div>
 
-                        {/* Post Content */}
-                        <div className="p-6">
-                          {/* Category */}
-                          <div className="mb-3">
-                            <span className="inline-block px-3 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded-full">
-                              {post.category}
-                            </span>
-                          </div>
+                    {/* Content */}
+                    <div className="p-6">
+                      {/* Title */}
+                      <h2 className="text-xl font-bold text-gray-900 group-hover:text-gray-600 transition-colors mb-3 line-clamp-2">
+                        {post.title}
+                      </h2>
 
-                          {/* Title */}
-                          <Link href={`/blog/${post.id}`}>
-                            <h2 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-gray-600 transition-colors line-clamp-2">
-                              {post.title}
-                            </h2>
-                          </Link>
+                      {/* Excerpt */}
+                      <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-3">
+                        {post.excerpt}
+                      </p>
 
-                          {/* Excerpt */}
-                          <p className="text-gray-600 mb-4 line-clamp-3">
-                            {post.excerpt}
-                          </p>
-
-                          {/* Meta Info */}
-                          <div className="flex items-center gap-4 text-sm text-gray-500 mb-4">
-                            <div className="flex items-center gap-1">
-                              <Calendar size={16} />
-                              <span>{post.date}</span>
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <Clock size={16} />
-                              <span>{post.readTime}</span>
-                            </div>
-                          </div>
-
-                          {/* Tags */}
-                          <div className="flex flex-wrap gap-2 mb-4">
-                            {post.tags.slice(0, 2).map((tag) => (
-                              <span
-                                key={tag}
-                                className="inline-flex items-center gap-1 px-2 py-1 bg-gray-50 text-gray-600 text-xs rounded"
-                              >
-                                <Tag size={12} />
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
-
-                          {/* Read More Link */}
-                          <Link 
-                            href={`/blog/${post.id}`}
-                            className="inline-flex items-center gap-2 text-gray-900 font-semibold hover:gap-3 transition-all group"
-                          >
-                            Read More
-                            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                          </Link>
+                      {/* Meta */}
+                      <div className="flex items-center justify-between text-sm text-gray-500">
+                        <div className="flex items-center gap-4">
+                          <span className="flex items-center gap-1.5">
+                            <Calendar size={14} />
+                            {post.date.split(',')[0]}
+                          </span>
+                          <span className="flex items-center gap-1.5">
+                            <Clock size={14} />
+                            {post.readTime}
+                          </span>
                         </div>
-                      </motion.article>
-                    ))}
-                  </div>
-                </>
-              )}
-            </>
+                      </div>
+
+                      {/* Tags */}
+                      <div className="flex gap-2 mt-4 pt-4 border-t border-gray-100">
+                        {post.tags.slice(0, 2).map((tag) => (
+                          <span
+                            key={tag}
+                            className="inline-flex items-center gap-1 px-2.5 py-1 bg-gray-50 text-gray-600 text-xs font-medium rounded-md"
+                          >
+                            <Hash size={10} />
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </Link>
+                </motion.article>
+              ))}
+            </div>
           )}
 
           {/* Newsletter CTA */}
-          {filteredPosts.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-              className="text-center mt-16 p-12 bg-gray-900 text-white rounded-2xl"
-            >
-              <h3 className="text-3xl font-bold mb-4">Stay Updated</h3>
-              <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
-                Get the latest insights on no-code development, product design, and tech trends delivered straight to your inbox.
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mt-20 p-10 lg:p-14 bg-gray-900 text-white rounded-3xl"
+          >
+            <div className="max-w-2xl mx-auto text-center">
+              <h3 className="text-3xl lg:text-4xl font-bold mb-4">Stay Updated</h3>
+              <p className="text-gray-400 mb-8 text-lg">
+                Get the latest tutorials and insights on no-code development delivered to your inbox.
               </p>
-              <div className="flex gap-3 max-w-md mx-auto">
+              <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
                 <input 
                   type="email" 
-                  placeholder="Enter your email" 
-                  className="flex-1 px-4 py-3 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-600"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="flex-1 px-5 py-4 rounded-xl text-gray-900 focus:outline-none focus:ring-4 focus:ring-white/20"
                 />
-                <button className="px-8 py-3 bg-white text-gray-900 font-semibold rounded-xl hover:bg-gray-100 transition-colors">
-                  Subscribe
+                <button 
+                  type="submit"
+                  disabled={subscribeStatus === 'loading'}
+                  className="px-8 py-4 bg-white text-gray-900 font-semibold rounded-xl hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {subscribeStatus === 'loading' ? 'Subscribing...' : 'Subscribe'}
                 </button>
-              </div>
-            </motion.div>
-          )}
+              </form>
+              {subscribeMessage && (
+                <p className={`mt-4 text-sm ${subscribeStatus === 'success' ? 'text-green-400' : 'text-red-400'}`}>
+                  {subscribeMessage}
+                </p>
+              )}
+            </div>
+          </motion.div>
         </div>
       </section>
     </main>

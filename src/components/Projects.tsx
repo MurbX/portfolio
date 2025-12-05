@@ -15,6 +15,7 @@ interface Project {
   liveLink?: string
   githubLink?: string
   features: string[]
+  inDevelopment?: boolean
 }
 
 export default function Projects() {
@@ -45,6 +46,37 @@ export default function Projects() {
   const projects: Project[] = [
     {
       id: 1,
+      title: 'Palmera AI',
+      description: "An AI-powered real-estate recommendation platform that helps users find properties through natural conversation. Users describe their preferences — location, budget, bedrooms, lifestyle needs — and the AI returns curated property matches. Features multilingual support (English/Hebrew), smart property cards, and responsive chat UI.",
+      image: '/images/palmera-ai.png',
+      tags: ['Bubble.io', 'OpenAI', 'Airtable', 'AI Assistant'],
+      category: 'AI/ML',
+      liveLink: 'https://ai.palmera.realestate/',
+      features: [
+        'Conversational Property Search',
+        'Dual-Language Support (EN/HE)',
+        'Real-Time Property Matching',
+        'Smart Result Cards',
+      ],
+    },
+    {
+      id: 2,
+      title: 'Powercouple',
+      description: "An innovative investor app for managing and tracking real estate investments, serving over 1,000 investors. Features a personal interface for each investor with ongoing investment updates, advanced portfolio management tools, a community area showcasing success stories, and a smart real-time notification system for market opportunities.",
+      image: '/images/PCouple-qsnz98oytd1u76haslykn6sdaz3l4ovc0gob0sgpy8.webp',
+      tags: ['Bubble.io', 'Real Estate', 'Investment', 'FinTech'],
+      category: 'No-Code',
+      liveLink: undefined,
+      inDevelopment: true,
+      features: [
+        'Personal Investor Dashboard',
+        'Portfolio Performance Tracking',
+        'Community Success Stories',
+        'Real-Time Notifications',
+      ],
+    },
+    {
+      id: 3,
       title: 'Craftad.ai',
       description: "An advanced system for creating marketing and advertising content that generates high-quality, targeted content tailored to specific audiences. The platform enables the production of unique campaigns that highlight messages and brands, helping to increase impact and exposure in the digital market.",
       image: '/images/Craftad-2-r1gy4yz1m5yl5mkmm3fjttqz7sy75wkaaqzxfhgz8g.webp',
@@ -59,7 +91,7 @@ export default function Projects() {
       ],
     },
     {
-      id: 2,
+      id: 4,
       title: 'AHNA Management System',
       description: "A comprehensive management system for a leading international company, featuring 6 advanced modules including Project, Personnel, Customer, Supplier, Management Dashboard, and Reporting & Analytics. Implemented intelligent agent pool management with skills tracking and optimal project matching, resulting in 40% efficiency improvement.",
       image: '/images/ahna image.webp',
@@ -74,7 +106,7 @@ export default function Projects() {
       ],
     },
     {
-      id: 3,
+      id: 5,
       title: 'FFili Influencer Marketing Platform',
       description: "A revolutionary influencer marketing platform connecting brands, influencers, and audiences. Features smart algorithm technology for product-influencer matching, personalized campaign recommendations, and a robust content management system.",
       image: '/images/FFili-client-r1hqo8t6rw7xnqeg2518uliezlnfherm7a3iy2bn1c.webp',
@@ -89,7 +121,7 @@ export default function Projects() {
       ],
     },
     {
-      id: 4,
+      id: 6,
       title: 'Katchings Financial Advisory Platform',
       description: 'An innovative fintech platform empowering financial advisors to create personalized client portals for investment tracking. Integrated comprehensive financial dashboards and a dedicated management interface for consulting agencies.',
       image: '/images/Katching-qso0h10b6izp18vm41bxan0di5a4p3p716pkttji3k.webp',
@@ -104,7 +136,7 @@ export default function Projects() {
       ],
     },
     {
-      id: 5,
+      id: 7,
       title: 'OpenTrade Analytics Suite',
       description: 'A revolutionary trading platform offering a smart trading experience based on real-time market data. Implemented advanced financial data collection with cTrader integration and an intelligent algorithm for market pattern identification and personalized trading recommendations.',
       image: '/images/Opentrade333-r1saixk7i1u4e15khljzuc5riauu7vbtyp6nt8q7a8.webp',
@@ -119,7 +151,7 @@ export default function Projects() {
       ],
     },
     {
-      id: 6,
+      id: 8,
       title: 'Hi Preemie Baby Care App',
       description: 'A comprehensive NICU baby care management application specializing in premature infant care. Features an intelligent scheduling system for feeding, diaper changes, and medication, integrated with a comprehensive medical database and care guidelines.',
       image: '/images/Preemie-qso04f09hjq79l72r334cbkql1fufamuarm2168nkw.webp',
@@ -135,11 +167,13 @@ export default function Projects() {
     },
   ]
 
-  const categories = ['All', 'No-Code', 'Full-Stack', 'Mobile', 'AI/ML']
+  const categories = ['All', 'No-Code', 'Full-Stack', 'Mobile', 'AI/ML', 'In Development']
 
   const filteredProjects =
     activeFilter === 'All'
       ? projects
+      : activeFilter === 'In Development'
+      ? projects.filter((p) => p.inDevelopment === true)
       : projects.filter((p) => p.category === activeFilter)
 
   return (
@@ -214,6 +248,16 @@ export default function Projects() {
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                
+                {/* In Development Badge */}
+                {project.inDevelopment && (
+                  <div className="absolute top-4 left-4 z-10">
+                    <span className="px-3 py-1.5 bg-amber-500 text-white text-xs font-semibold rounded-full shadow-lg flex items-center gap-1.5">
+                      <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+                      In Development
+                    </span>
+                  </div>
+                )}
                 
                 {/* Links Overlay */}
                 <div className="absolute top-6 right-6 flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
