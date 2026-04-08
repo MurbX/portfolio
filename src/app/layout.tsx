@@ -1,30 +1,35 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
-
 export const metadata: Metadata = {
-  title: 'Brian Mutuku - Senior Bubble Developer & No-Code Specialist',
-  description: 'Full-stack developer specializing in no-code solutions, Bubble.io, FlutterFlow, and modern web development.',
-  keywords: ['Bubble Developer', 'No-Code', 'FlutterFlow', 'Web Development', 'Portfolio'],
-  authors: [{ name: 'Brian Mutuku', url: 'https://murbxpn8n.dev' }],
-  icons: {
-    icon: [
-      { url: '/favicon.ico' },
-      { url: '/icon.png', type: 'image/png', sizes: '32x32' },
-    ],
-    apple: [
-      { url: '/apple-icon.png', sizes: '180x180', type: 'image/png' },
-    ],
-  },
+  metadataBase: new URL('https://murbxp.dev'),
+  title: 'Brian Mutuku — No-Code / Pro-Code Developer & Full-Stack Solutions Architect',
+  description:
+    'Versatile developer with 5+ years of expertise architecting enterprise-grade applications across Bubble.io, Flutter, React, and TypeScript. Delivering scalable solutions across healthcare, fintech, proptech, and community platforms.',
+  keywords: [
+    'Brian Mutuku',
+    'No-Code Developer',
+    'Bubble.io Developer',
+    'Flutter Developer',
+    'React Developer',
+    'Full-Stack Architect',
+    'Portfolio',
+  ],
+  authors: [{ name: 'Brian Mutuku', url: 'https://murbxp.dev' }],
   openGraph: {
-    title: 'Brian Mutuku - Senior Bubble Developer',
-    description: 'Full-stack developer specializing in no-code solutions',
-    url: 'https://murbxpn8n.dev',
+    title: 'Brian Mutuku — No-Code / Pro-Code Developer',
+    description:
+      'Architecting enterprise-grade applications across Bubble.io, Flutter, React, and TypeScript.',
+    url: 'https://murbxp.dev',
     siteName: 'Brian Mutuku Portfolio',
     locale: 'en_US',
     type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Brian Mutuku — No-Code / Pro-Code Developer',
+    description:
+      'Architecting enterprise-grade applications across Bubble.io, Flutter, React, and TypeScript.',
   },
 }
 
@@ -35,7 +40,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className={inter.className}>{children}</body>
+      <body className="font-sans">{children}</body>
     </html>
   )
 }

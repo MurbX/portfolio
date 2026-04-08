@@ -2,142 +2,162 @@
 
 import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Code2, Palette, Zap, Heart } from 'lucide-react'
+import { Linkedin, Github, Twitter } from 'lucide-react'
+
+const pills = [
+  { name: 'Bubble.io', rotate: -12, dark: true, size: 'lg' },
+  { name: 'FlutterFlow', rotate: 8, dark: false, size: 'md' },
+  { name: 'Webflow', rotate: -5, dark: false, size: 'lg' },
+  { name: 'Xano', rotate: 15, dark: false, size: 'md' },
+  { name: 'Figma', rotate: -8, dark: false, size: 'lg' },
+  { name: 'Framer', rotate: 10, dark: false, size: 'md' },
+  { name: 'Flutter', rotate: -6, dark: true, size: 'lg' },
+  { name: 'React', rotate: 12, dark: false, size: 'lg' },
+  { name: 'TypeScript', rotate: -10, dark: true, size: 'md' },
+  { name: 'Supabase', rotate: 7, dark: false, size: 'lg' },
+  { name: 'Next.js', rotate: -14, dark: true, size: 'md' },
+]
+
+function Pill({ pill, index }: { pill: typeof pills[number]; index: number }) {
+  return (
+    <motion.span
+      initial={{ opacity: 0, scale: 0.8, rotate: 0 }}
+      whileInView={{ opacity: 1, scale: 1, rotate: pill.rotate }}
+      viewport={{ once: true }}
+      transition={{ delay: 0.3 + index * 0.05 }}
+      whileHover={{ rotate: 0, scale: 1.12, y: -8, transition: { duration: 0.15 } }}
+      className={`rounded-full font-semibold cursor-default select-none transition-shadow duration-300 hover:shadow-lg ${
+        pill.size === 'lg' ? 'px-8 py-4 text-base' : 'px-6 py-3 text-sm'
+      } ${
+        pill.dark
+          ? 'bg-black text-white'
+          : 'bg-white text-black border-2 border-black'
+      }`}
+    >
+      {pill.name}
+    </motion.span>
+  )
+}
 
 export default function About() {
-  const highlights = [
-    {
-      icon: Code2,
-      title: 'Clean Code',
-      description: 'Writing accessible, maintainable code'
-    },
-    {
-      icon: Palette,
-      title: 'Design Focus',
-      description: 'Beautiful pixels and user experience'
-    },
-    {
-      icon: Zap,
-      title: 'Fast Delivery',
-      description: 'MVP to production in 30 days'
-    },
-    {
-      icon: Heart,
-      title: 'Detail Oriented',
-      description: 'I sweat the details that matter'
-    }
-  ]
-
   return (
-    <section id="about" className="section-padding relative overflow-hidden bg-gray-50">
-      {/* Background gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-100/50 to-transparent -z-10"></div>
-      
-      {/* Decorative blobs */}
-      <div className="absolute top-0 left-0 w-96 h-96 bg-blue-200/20 rounded-full blur-3xl -z-10"></div>
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-200/20 rounded-full blur-3xl -z-10"></div>
+    <section id="about" className="relative section-padding overflow-hidden">
 
-      <div className="container-custom">
-        {/* Section Header */}
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
+        {/* Badge — top right */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-center mb-16"
+          className="flex justify-end mb-10"
         >
-          <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-            About Me
-          </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Passionate about bringing technical and design aspects together
-          </p>
+          <div className="inline-flex items-center gap-3">
+            <span className="w-10 h-10 rounded-full border border-black flex items-center justify-center">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 8v8M8 12h8" />
+              </svg>
+            </span>
+            <span className="px-6 py-3 border border-black rounded-full text-base font-medium text-black">
+              About
+            </span>
+          </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Left Column - Image */}
+        {/* Photo card + Title row */}
+        <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16 mb-10">
+          {/* Photo card — left, rotated, square transparent bg like testimonial */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, scale: 0.9, rotate: 0 }}
+            whileInView={{ opacity: 1, scale: 1, rotate: -3 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="flex justify-center lg:justify-start"
+            whileHover={{ rotate: 0, scale: 1.03, transition: { duration: 0.15 } }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="shrink-0 w-[240px] lg:w-[280px] rounded-[1.5rem] bg-black/5 backdrop-blur-sm border border-black/10"
           >
-            <div className="w-full">
-              <Image
-                src="/images/portfolio-image-2.png"
-                alt="Brian Mutuku"
-                width={700}
-                height={933}
-                className="object-contain w-full h-auto"
-                priority
-              />
+            {/* Photo in circle border */}
+            <div className="flex items-center justify-center pt-6 pb-4">
+              <div className="w-[180px] h-[180px] lg:w-[220px] lg:h-[220px] rounded-full overflow-hidden border-4 border-black/10">
+                <Image
+                  src="/images/potrait_cropped.png"
+                  alt="Brian Mutuku"
+                  width={220}
+                  height={220}
+                  className="object-cover object-top w-full h-full"
+                />
+              </div>
+            </div>
+
+            {/* Social icons pill — bottom-left */}
+            <div className="flex items-center justify-start px-3 py-3">
+              <div className="inline-flex items-center gap-3 px-4 py-2 bg-black/10 backdrop-blur-sm rounded-full">
+                <a href="https://www.linkedin.com/in/brian-mutuku-developer/" target="_blank" rel="noopener noreferrer" className="text-black/70 hover:text-black transition-colors duration-150">
+                  <Linkedin size={18} />
+                </a>
+                <a href="https://github.com/MurbX" target="_blank" rel="noopener noreferrer" className="text-black/70 hover:text-black transition-colors duration-150">
+                  <Github size={18} />
+                </a>
+                <a href="https://x.com/MurbBrian_ke" target="_blank" rel="noopener noreferrer" className="text-black/70 hover:text-black transition-colors duration-150">
+                  <Twitter size={18} />
+                </a>
+              </div>
             </div>
           </motion.div>
 
-          {/* Right Column - Content */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+          {/* Heading — right side */}
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="space-y-8"
+            transition={{ delay: 0.1 }}
+            className="text-5xl lg:text-[5rem] font-semibold text-black leading-[1.5] text-center lg:text-left flex-1"
           >
-            {/* Intro Text */}
-            <div className="space-y-4">
-              <p className="text-lg text-gray-700 leading-relaxed">
-                I am passionate about bringing technical and design aspects together. User experience, beautiful pixels and writing clean accessible code matters to me. I sweat the details.
-              </p>
-            </div>
-
-            {/* Highlights Grid */}
-            <div className="grid grid-cols-2 gap-4">
-              {highlights.map((highlight, index) => {
-                const Icon = highlight.icon
-                return (
-                  <motion.div
-                    key={highlight.title}
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="group"
-                  >
-                    <div className="bg-gray-50 rounded-xl p-4 border border-gray-200 hover:border-gray-900 hover:shadow-lg transition-all duration-300">
-                      <Icon className="text-gray-900 mb-3 group-hover:scale-110 transition-transform duration-300" size={24} strokeWidth={2} />
-                      <h4 className="font-semibold text-gray-900 text-sm mb-1">{highlight.title}</h4>
-                      <p className="text-xs text-gray-600">{highlight.description}</p>
-                    </div>
-                  </motion.div>
-                )
-              })}
-            </div>
-
-            {/* Story Sections */}
-            <div className="space-y-6">
-              <div className="border-l-4 border-gray-900 pl-6">
-                <h3 className="font-bold text-gray-900 text-lg mb-2">My Journey</h3>
-                <p className="text-gray-700 leading-relaxed">
-                  Over the years, I've learned lots of other tools in dev, a versatile product designer with three years of experience who can help you from start to finish - whether it's building MVPs or managing complex products, and everything in between!
-                </p>
-              </div>
-
-              <div className="border-l-4 border-gray-900 pl-6">
-                <h3 className="font-bold text-gray-900 text-lg mb-2">Beyond the Code</h3>
-                <p className="text-gray-700 leading-relaxed">
-                  When I'm not at my desk I am probably lifting weights, doing yoga or simply hitting the road! I'm a huge health and fitness enthusiast. I like to stay healthy, both physically and mentally!
-                </p>
-              </div>
-
-              <div className="bg-gray-900 text-white rounded-2xl p-6">
-                <h3 className="font-bold text-lg mb-2">Let's Work Together</h3>
-                <p className="text-gray-100 leading-relaxed">
-                  I take projects from idea through design, development, and testing until it's perfect - with the goal of creating high quality products that users love. Let's chat about bringing your ideas to life!
-                </p>
-              </div>
-            </div>
-          </motion.div>
+            I&apos;ve been{' '}
+            <span className="bg-black text-white px-5 py-2 rounded-xl inline-block leading-[1.15] mx-1">
+              Building
+            </span>
+            <br />
+            Applications since{' '}
+            <span className="bg-black text-white px-5 py-2 rounded-xl inline-block leading-[1.15] mx-1">
+              2020
+            </span>
+          </motion.h2>
         </div>
+
+        {/* Description */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className="text-black text-center max-w-2xl mx-auto text-lg leading-relaxed mb-20"
+        >
+          I&apos;m a versatile developer with 5+ years of expertise across
+          healthcare, fintech, proptech, and community platforms. Every project
+          starts with a discovery call so I can understand your goals and
+          recommend the best path forward.
+        </motion.p>
+
+        {/* Previously Worked With — scattered pills */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="flex flex-col md:flex-row items-center md:items-end gap-10"
+        >
+          <p className="text-black font-bold text-2xl lg:text-3xl uppercase tracking-wider shrink-0 leading-tight">
+            Previously
+            <br />
+            Worked With
+          </p>
+
+          <div className="flex flex-wrap justify-center items-center gap-4 md:gap-5 max-w-4xl">
+            {pills.map((pill, i) => (
+              <Pill key={pill.name} pill={pill} index={i} />
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   )

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { Menu, X, ArrowUpRight, Download } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false)
@@ -17,69 +17,59 @@ export default function Header() {
   }, [])
 
   const navItems = [
+    { name: 'Home', href: '/' },
     { name: 'About', href: '/#about' },
-    { name: 'Work', href: '/#experience' },
-    { name: 'Projects', href: '/#projects' },
-    { name: 'Blog', href: '/blog' },
+    { name: 'Portfolio', href: '/#projects' },
     { name: 'Contact', href: '/#contact' },
   ]
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled 
-          ? 'bg-white/80 backdrop-blur-md shadow-lg border-b border-gray-200/50' 
-          : 'bg-white/50 backdrop-blur-sm'
-      }`}
+        scrolled ? 'bg-white/95 backdrop-blur-md' : 'bg-transparent'
+      } ${mobileMenuOpen ? 'max-md:bg-white/95 max-md:backdrop-blur-md' : ''}`}
     >
-      <nav className="container-custom py-4">
+      <nav className="max-w-[1400px] mx-auto px-6 lg:px-10 py-5">
         <div className="flex items-center justify-between">
-          {/* Logo with hover effect */}
-          <Link 
-            href="/" 
-            className="text-2xl font-bold text-gray-900 hover:text-gray-600 transition-colors group"
+          {/* Logo */}
+          <Link
+            href="/"
+            className="text-[1.35rem] font-extrabold tracking-tight text-black uppercase"
           >
-            <span className="inline-block group-hover:scale-105 transition-transform">
-              &lt;BR /&gt;
-            </span>
+            MURBXP.DEV
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            <div className="flex items-center gap-1">
-              {navItems.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className="px-4 py-2 text-gray-700 hover:text-gray-900 font-medium transition-colors rounded-lg hover:bg-gray-100"
-                >
-                  {item.name}
-                </a>
-              ))}
-            </div>
-            
-            {/* Action Buttons */}
-            <div className="flex items-center gap-3">
-              <a 
-                href="/#contact" 
-                className="px-5 py-2.5 text-gray-700 font-medium border border-gray-300 rounded-[12px] hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 inline-flex items-center gap-2 group"
+          <div className="hidden md:flex items-center gap-10">
+            {navItems.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="text-[15px] font-medium text-black hover:text-black/60 transition-colors"
               >
-                Contact
-                <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                {item.name}
               </a>
-              <a 
-                href="/resume.pdf" 
-                download
-                className="px-5 py-2.5 bg-gray-900 text-white font-medium rounded-[12px] hover:bg-gray-800 transition-all duration-200 shadow-sm hover:shadow-md"
-              >
-                Download Resume
-              </a>
-            </div>
+            ))}
+          </div>
+
+          {/* CTA Button */}
+          <div className="hidden md:block">
+            <a
+              href="/#contact"
+              className="inline-flex items-center gap-3 pl-3 pr-6 py-2.5 border border-black rounded-full text-[15px] font-medium text-black hover:bg-black hover:text-white hover:border-black transition-all duration-300 group"
+            >
+              <span className="w-8 h-8 rounded-full border border-current flex items-center justify-center transition-colors duration-300">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </span>
+              Start Project
+            </a>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="md:hidden p-2 hover:bg-black/5 rounded-lg transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Toggle menu"
           >
@@ -95,31 +85,25 @@ export default function Header() {
                 <a
                   key={item.name}
                   href={item.href}
-                  className="block px-4 py-2.5 text-gray-700 hover:text-gray-900 hover:bg-gray-100 font-medium rounded-lg transition-colors"
+                  className="block px-4 py-3 text-black font-medium rounded-lg hover:bg-black/5 transition-colors"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {item.name}
                 </a>
               ))}
             </div>
-            
-            <div className="flex flex-col gap-3 mt-4 pt-4 border-t border-gray-200">
-              <a 
-                href="#contact" 
-                className="px-5 py-2.5 text-center text-gray-700 font-medium border border-gray-300 rounded-[12px] hover:bg-gray-50 transition-all duration-200 inline-flex items-center justify-center gap-2" 
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <a
+                href="/#contact"
+                className="inline-flex items-center gap-3 pl-3 pr-6 py-2.5 border border-black rounded-full text-[15px] font-medium text-black"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                Contact Me
-                <ArrowUpRight size={16} />
-              </a>
-              <a 
-                href="/resume.pdf" 
-                download
-                className="px-5 py-2.5 bg-gray-900 text-white font-medium rounded-[12px] hover:bg-gray-800 transition-all duration-200 shadow-sm inline-flex items-center justify-center gap-2" 
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                <Download size={16} />
-                Download Resume
+                <span className="w-8 h-8 rounded-full border border-current flex items-center justify-center">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7" />
+                  </svg>
+                </span>
+                Start Project
               </a>
             </div>
           </div>

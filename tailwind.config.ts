@@ -10,11 +10,11 @@ const config: Config = {
     extend: {
       colors: {
         primary: '#000000',
-        secondary: '#4A90E2',
-        accent: '#00D9FF',
+        lime: '#CCFF00',
+        accent: '#CCFF00',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['"Clash Display"', 'system-ui', 'sans-serif'],
       },
     },
   },

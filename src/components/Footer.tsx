@@ -1,74 +1,43 @@
 'use client'
 
-import { Heart, Linkedin, Github, Twitter } from 'lucide-react'
+import { Heart } from 'lucide-react'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="py-12 border-t border-gray-200 bg-white">
-      <div className="container-custom">
+    <footer className="mx-4 lg:mx-8 mb-4 lg:mb-8 bg-[#141414] rounded-[2rem] py-12 relative z-10">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
         <div className="flex flex-col items-center gap-8">
-          {/* Social Links */}
-          <div className="flex gap-4">
-            <a
-              href="https://www.linkedin.com/in/brian-mutuku-developer/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 bg-gray-100 hover:bg-gray-900 hover:text-white rounded-lg transition-all duration-300"
-              aria-label="LinkedIn"
-            >
-              <Linkedin size={20} />
-            </a>
-            <a
-              href="https://github.com/MurbX"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 bg-gray-100 hover:bg-gray-900 hover:text-white rounded-lg transition-all duration-300"
-              aria-label="GitHub"
-            >
-              <Github size={20} />
-            </a>
-            <a
-              href="https://x.com/MurbBrian_ke"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-3 bg-gray-100 hover:bg-gray-900 hover:text-white rounded-lg transition-all duration-300"
-              aria-label="Twitter"
-            >
-              <Twitter size={20} />
-            </a>
-          </div>
-
           {/* Links */}
           <div className="flex flex-wrap gap-6 justify-center">
-            <a href="#about" className="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors">
+            <a href="#about" className="text-white/60 hover:text-[#D4FF5B] text-sm font-medium transition-colors">
               About
             </a>
-            <a href="#skills" className="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors">
+            <a href="#skills" className="text-white/60 hover:text-[#D4FF5B] text-sm font-medium transition-colors">
               Skills
             </a>
-            <a href="#experience" className="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors">
+            <a href="#experience" className="text-white/60 hover:text-[#D4FF5B] text-sm font-medium transition-colors">
               Experience
             </a>
-            <a href="#projects" className="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors">
+            <a href="#projects" className="text-white/60 hover:text-[#D4FF5B] text-sm font-medium transition-colors">
               Projects
             </a>
-            <a href="/blog" className="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors">
-              Blog
-            </a>
-            <a href="#contact" className="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors">
+            <a href="#contact" className="text-white/60 hover:text-[#D4FF5B] text-sm font-medium transition-colors">
               Contact
             </a>
           </div>
 
-          {/* Copyright & Made with love */}
+          {/* Divider */}
+          <div className="w-full h-px bg-white/10" />
+
+          {/* Copyright */}
           <div className="flex flex-col items-center gap-2 text-center">
-            <p className="text-gray-600 text-sm flex items-center gap-2">
+            <p className="text-white/40 text-sm flex items-center gap-2">
               Made with <Heart size={16} className="text-red-500 fill-current" /> in Kenya
             </p>
-            <p className="text-gray-500 text-sm">
-              © {currentYear} Brian Mutuku. All rights reserved.
+            <p className="text-white/40 text-sm">
+              &copy; {currentYear} Brian Mutuku. All rights reserved.
             </p>
           </div>
         </div>

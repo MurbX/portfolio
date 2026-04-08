@@ -1,196 +1,192 @@
 'use client'
 
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import Image from 'next/image'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Facebook, Instagram, Twitter } from 'lucide-react'
 
-interface Testimonial {
-  id: number
-  name: string
-  role: string
-  content: string
-  rating: number
-}
+const testimonials = [
+  {
+    name: 'Adir Cohen',
+    role: 'CEO',
+    company: 'Deploy Technologies LTD',
+    content:
+      '"Brian is one of the most reliable developers I\'ve worked with. He consistently delivers complex Bubble.io applications with exceptional quality and attention to detail. His ability to handle intricate integrations and custom workflows has made him an invaluable asset to our team."',
+    image: '/images/adir cohen.png',
+  },
+  {
+    name: 'Yoni Gilboa',
+    role: 'CEO & Founder',
+    company: 'CureBox',
+    content:
+      '"Brian architected our entire healthcare platform from the ground up. His expertise in React, TypeScript, and Supabase brought CureBox to life with a polished, production-ready experience. Beyond his technical skill, his communication and problem-solving made the whole process seamless."',
+    image: '/images/yoni-gilboa.jpg',
+  },
+]
 
 export default function Testimonials() {
-  const [pausedRow, setPausedRow] = useState<number | null>(null)
+  const [current, setCurrent] = useState(0)
 
-  const testimonialsRow1: Testimonial[] = [
-    {
-      id: 1,
-      name: 'David Chen',
-      role: 'Chief Technology Officer',
-      content: "Brian transformed our entire workflow with a custom Bubble.io application. What impressed me most was his ability to understand our complex requirements and translate them into an intuitive interface. The app he built handles our inventory, client management, and reporting seamlessly. Highly recommend working with him.",
-      rating: 5,
-    },
-    {
-      id: 2,
-      name: 'Amina Osei',
-      role: 'Startup Founder',
-      content: "I've worked with many developers, but Brian stands out for his communication and problem-solving skills. He didn't just build what I asked for – he suggested improvements I hadn't even considered. Our marketing platform now runs 3x faster thanks to his optimizations.",
-      rating: 5,
-    },
-    {
-      id: 3,
-      name: 'Michael Torres',
-      role: 'Product Manager',
-      content: "Brian delivered our financial dashboard ahead of schedule and under budget. His expertise in integrating APIs and handling complex data flows is exceptional. The real-time analytics he implemented have become essential to our daily operations. True professional.",
-      rating: 5,
-    },
-    {
-      id: 4,
-      name: 'Wanjiku Mwangi',
-      role: 'Healthcare Administrator',
-      content: "We needed a compliant patient management system built fast. Brian not only delivered on time but also ensured every security requirement was met. His attention to detail and understanding of healthcare workflows made all the difference.",
-      rating: 5,
-    },
-    {
-      id: 5,
-      name: 'James Wright',
-      role: 'Operations Director',
-      content: "Brian rebuilt our legacy system into a modern no-code solution that our team actually enjoys using. Training time for new employees dropped from 2 weeks to 2 days. The ROI on this project has been incredible. Can't recommend him enough.",
-      rating: 5,
-    },
-    {
-      id: 6,
-      name: 'Fatima Al-Hassan',
-      role: 'E-commerce Entrepreneur',
-      content: "As a non-technical founder, I was nervous about building my MVP. Brian made the entire process stress-free. He explained everything clearly, met every deadline, and the final product exceeded my expectations. Already planning our next project together.",
-      rating: 5,
-    },
-  ]
+  const prev = () => setCurrent((i) => (i === 0 ? testimonials.length - 1 : i - 1))
+  const next = () => setCurrent((i) => (i === testimonials.length - 1 ? 0 : i + 1))
 
-  const testimonialsRow2: Testimonial[] = [
-    {
-      id: 7,
-      name: 'Kipchoge Mutai',
-      role: 'Digital Agency Director',
-      content: "We've partnered with Brian on multiple client projects. His technical skills are matched only by his reliability. He handles complex integrations with Airtable, APIs, and automation workflows effortlessly. Our clients consistently praise the quality of his work.",
-      rating: 5,
-    },
-    {
-      id: 8,
-      name: 'Sophie Laurent',
-      role: 'Retail Business Owner',
-      content: "Brian built our entire order management and fulfillment system from scratch. What used to take hours of manual work now happens automatically. Sales are up 40% because we can finally focus on growing the business instead of managing spreadsheets.",
-      rating: 5,
-    },
-    {
-      id: 9,
-      name: "Kevin O'Brien",
-      role: 'Senior Developer',
-      content: "I was skeptical about no-code solutions until I saw what Brian could build. The CRM system he developed rivals enterprise software costing 10x more. His code is clean, well-documented, and easy to maintain. A rare find in this industry.",
-      rating: 5,
-    },
-    {
-      id: 10,
-      name: 'Njeri Kamau',
-      role: 'Marketing Director',
-      content: "Brian created an influencer tracking platform that changed how we run campaigns. The dashboard he designed is beautiful and functional. Real-time analytics, automated reporting, seamless integrations – everything we needed in one place.",
-      rating: 5,
-    },
-    {
-      id: 11,
-      name: 'Thomas Anderson',
-      role: 'Logistics Manager',
-      content: "Our logistics platform needed a complete overhaul. Brian delivered a solution that reduced processing time by 60% and virtually eliminated data entry errors. His understanding of business processes sets him apart from other developers I've worked with.",
-      rating: 5,
-    },
-    {
-      id: 12,
-      name: 'Achieng Otieno',
-      role: 'Creative Agency Owner',
-      content: "Brian is our go-to developer for all Bubble.io projects. He's built everything from simple landing pages to complex multi-tenant SaaS applications for our clients. Fast, reliable, and always delivers quality. Worth every penny.",
-      rating: 5,
-    },
-  ]
-
-  const TestimonialCard = ({ testimonial }: { testimonial: Testimonial }) => (
-    <div className="flex-shrink-0 w-[280px] md:w-[300px] bg-white rounded-2xl p-5 border border-gray-100 shadow-sm hover:shadow-lg transition-shadow duration-300">
-      {/* Header with Avatar and Name */}
-      <div className="flex items-center gap-3 mb-3">
-        <div className="w-10 h-10 rounded-full bg-gray-900 flex items-center justify-center text-white font-semibold text-sm">
-          {testimonial.name.split(' ').map(n => n[0]).join('')}
-        </div>
-        <div>
-          <h4 className="font-semibold text-gray-900 text-sm">{testimonial.name}</h4>
-          <p className="text-gray-500 text-xs">{testimonial.role}</p>
-        </div>
-      </div>
-
-      {/* Rating */}
-      <div className="flex gap-0.5 mb-3">
-        {[...Array(testimonial.rating)].map((_, i) => (
-          <svg
-            key={i}
-            className="w-4 h-4 text-yellow-400 fill-current"
-            viewBox="0 0 20 20"
-          >
-            <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z" />
-          </svg>
-        ))}
-      </div>
-
-      {/* Content */}
-      <p className="text-gray-600 text-sm leading-relaxed">
-        {testimonial.content}
-      </p>
-    </div>
-  )
+  const t = testimonials[current]
 
   return (
-    <section id="testimonials" className="section-padding bg-gray-50 overflow-hidden">
-      <div className="container-custom">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl lg:text-5xl font-bold mb-4 text-gray-900"
-          >
-            Client Testimonials
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="text-gray-600 max-w-2xl mx-auto text-lg"
-          >
-            Don't just take my word for it - hear what clients have to say about working together.
-          </motion.p>
-        </div>
-      </div>
-
-      {/* Scrolling Testimonials */}
-      <div className="space-y-6">
-        {/* Row 1 - Left to Right */}
-        <div 
-          className="relative"
-          onMouseEnter={() => setPausedRow(1)}
-          onMouseLeave={() => setPausedRow(null)}
+    <section id="testimonials" className="section-padding relative overflow-hidden">
+      <div className="max-w-[1400px] mx-auto px-6 lg:px-10">
+        {/* Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="inline-flex items-center gap-3 mb-8"
         >
-          <div className="flex gap-6 animate-scroll-left" style={{ animationPlayState: pausedRow === 1 ? 'paused' : 'running' }}>
-            {/* Duplicate for infinite scroll */}
-            {[...testimonialsRow1, ...testimonialsRow1].map((testimonial, index) => (
-              <TestimonialCard key={`row1-${testimonial.id}-${index}`} testimonial={testimonial} />
-            ))}
-          </div>
-        </div>
+          <span className="w-10 h-10 rounded-full border border-black flex items-center justify-center">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 8v8M8 12h8" />
+            </svg>
+          </span>
+          <span className="px-5 py-2.5 border border-black rounded-full text-sm font-medium text-black">
+            Testimonials
+          </span>
+        </motion.div>
 
-        {/* Row 2 - Right to Left */}
-        <div 
-          className="relative"
-          onMouseEnter={() => setPausedRow(2)}
-          onMouseLeave={() => setPausedRow(null)}
+        {/* Heading */}
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.1 }}
+          className="text-4xl lg:text-[4.5rem] font-semibold text-black leading-[1.1] mb-6"
         >
-          <div className="flex gap-6 animate-scroll-right" style={{ animationPlayState: pausedRow === 2 ? 'paused' : 'running' }}>
-            {/* Duplicate for infinite scroll */}
-            {[...testimonialsRow2, ...testimonialsRow2].map((testimonial, index) => (
-              <TestimonialCard key={`row2-${testimonial.id}-${index}`} testimonial={testimonial} />
-            ))}
+          Client{' '}
+          <span className="bg-black text-white px-4 rounded-lg inline-block leading-[1.15]">
+            Talking
+          </span>
+        </motion.h2>
+
+        {/* Description */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2 }}
+          className="text-black text-lg max-w-xl leading-relaxed mb-12"
+        >
+          Real feedback from founders and CEOs I&apos;ve worked directly with
+          on production applications.
+        </motion.p>
+
+        {/* Testimonial layout */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="flex flex-col md:flex-row items-end gap-6 md:ml-12 lg:ml-20"
+        >
+          {/* Left — Arrows in row + Avatar card */}
+          <div className="flex items-end gap-4">
+            {/* Arrows — beside the card on the left, in a row */}
+            <div className="flex flex-row gap-3 mb-6">
+              <button
+                onClick={prev}
+                className="w-14 h-14 rounded-full border-2 border-black flex items-center justify-center text-black hover:bg-black hover:text-white transition-all duration-150"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button
+                onClick={next}
+                className="w-14 h-14 rounded-full border-2 border-black flex items-center justify-center text-black hover:bg-black hover:text-white transition-all duration-150"
+              >
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M5 12h14M12 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Avatar card — slight rotation */}
+            <motion.div
+              animate={{ rotate: 2 }}
+              whileHover={{ rotate: 0, scale: 1.03 }}
+              transition={{ duration: 0.15 }}
+              className="w-[240px] lg:w-[280px] rounded-[1.5rem] bg-black/5 backdrop-blur-sm border border-black/10 shrink-0"
+            >
+              {/* Avatar */}
+              <div className="flex items-center justify-center pt-10 pb-6">
+                <div className="w-32 h-32 rounded-full overflow-hidden border-2 border-black/20 relative">
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={current}
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute inset-0"
+                    >
+                      <Image
+                        src={t.image}
+                        alt={t.name}
+                        fill
+                        className="object-cover"
+                      />
+                    </motion.div>
+                  </AnimatePresence>
+                </div>
+              </div>
+
+              {/* Social icons — pill, bottom-left corner */}
+              <div className="flex items-center justify-start px-3 pb-3">
+                <div className="inline-flex items-center gap-3 px-4 py-2 bg-black/10 backdrop-blur-sm rounded-full">
+                  <a href="#" className="text-white transition-colors duration-150">
+                    <Facebook size={18} />
+                  </a>
+                  <a href="#" className="text-white transition-colors duration-150">
+                    <Instagram size={18} />
+                  </a>
+                  <a href="#" className="text-white transition-colors duration-150">
+                    <Twitter size={18} />
+                  </a>
+                </div>
+              </div>
+            </motion.div>
           </div>
-        </div>
+
+          {/* Right — Quote card */}
+          <motion.div
+            animate={{ rotate: -1.5 }}
+            whileHover={{ rotate: 0, scale: 1.02 }}
+            transition={{ duration: 0.15 }}
+            className="flex-1 bg-[#141414] rounded-[1.5rem] p-8 lg:p-12 min-h-[320px] flex flex-col justify-between">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={current}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.2 }}
+                className="flex flex-col justify-between h-full"
+              >
+                <div>
+                  <p className="text-white/50 text-sm font-semibold uppercase tracking-widest mb-6">
+                    {t.company}
+                  </p>
+                  <p className="text-white text-lg lg:text-xl leading-relaxed">
+                    {t.content}
+                  </p>
+                </div>
+                <div className="mt-8 pt-6 border-t border-white/10">
+                  <p className="text-white font-bold text-lg">{t.name.toUpperCase()}</p>
+                  <p className="text-white/50 text-sm mt-1">{t.role}</p>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   )

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Heavy blur filter for soft, organic edges -->
+    <filter id="softBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="120" />
+    </filter>
+
+    <!-- Even heavier blur for the outermost glow shapes -->
+    <filter id="ultraBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="180" />
+    </filter>
+  </defs>
+
+  <!-- Off-white base background -->
+  <rect width="1440" height="900" fill="#F9F9F9" />
+
+  <!--
+    Diagonal band effect: upper-right to lower-left
+    Built from overlapping blurred ellipses positioned along the diagonal.
+    The outermost ellipses use ultraBlur for very soft fade into white.
+    The inner ellipses use softBlur for the core color band.
+  -->
+
+  <!-- Outermost glow: sky blue, upper-right area (fades into background) -->
+  <ellipse cx="1150" cy="150" rx="400" ry="280" fill="#BEE9F8" opacity="0.4" filter="url(#ultraBlur)" />
+
+  <!-- Core sky blue blob: upper-right of the diagonal band -->
+  <ellipse cx="1050" cy="250" rx="350" ry="250" fill="#BEE9F8" opacity="0.7" filter="url(#softBlur)" />
+
+  <!-- Transition zone: sky blue to neon lime, center of canvas -->
+  <ellipse cx="750" cy="420" rx="300" ry="220" fill="#BEE9F8" opacity="0.45" filter="url(#softBlur)" />
+  <ellipse cx="700" cy="460" rx="320" ry="240" fill="#D4FF5B" opacity="0.35" filter="url(#softBlur)" />
+
+  <!-- Core neon lime blob: lower-left of the diagonal band -->
+  <ellipse cx="400" cy="650" rx="350" ry="250" fill="#D4FF5B" opacity="0.6" filter="url(#softBlur)" />
+
+  <!-- Outermost glow: neon lime, lower-left area (fades into background) -->
+  <ellipse cx="250" cy="750" rx="400" ry="280" fill="#D4FF5B" opacity="0.3" filter="url(#ultraBlur)" />
+
+  <!-- Small accent blobs for natural variation along the band -->
+  <ellipse cx="900" cy="320" rx="200" ry="150" fill="#A8E0F0" opacity="0.3" filter="url(#softBlur)" />
+  <ellipse cx="550" cy="550" rx="200" ry="150" fill="#E0FF8A" opacity="0.25" filter="url(#softBlur)" />
+</svg>

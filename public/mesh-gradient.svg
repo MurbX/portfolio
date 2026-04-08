@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 5000" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <filter id="softBlur" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="60" />
+    </filter>
+    <filter id="maskBlur" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="40" />
+    </filter>
+
+    <mask id="bandMask">
+      <rect width="1440" height="5000" fill="black" />
+      <!-- Steeper diagonal: left edge starts much higher than right edge -->
+      <polygon points="0,50 600,50 1440,500 1440,670 0,220" fill="white" filter="url(#maskBlur)" />
+      <polygon points="0,950 600,950 1440,1400 1440,1570 0,1120" fill="white" filter="url(#maskBlur)" />
+      <polygon points="0,1850 600,1850 1440,2300 1440,2470 0,2020" fill="white" filter="url(#maskBlur)" />
+      <polygon points="0,2750 600,2750 1440,3200 1440,3370 0,2920" fill="white" filter="url(#maskBlur)" />
+      <polygon points="0,3650 600,3650 1440,4100 1440,4270 0,3820" fill="white" filter="url(#maskBlur)" />
+    </mask>
+  </defs>
+
+  <rect width="1440" height="5000" fill="#F9F9F9" />
+
+  <g mask="url(#bandMask)">
+    <!-- Band 1 -->
+    <ellipse cx="200" cy="100" rx="350" ry="160" fill="#BEE9F8" opacity="0.8" filter="url(#softBlur)" />
+    <ellipse cx="480" cy="180" rx="250" ry="140" fill="#BEE9F8" opacity="0.5" filter="url(#softBlur)" />
+    <ellipse cx="720" cy="300" rx="220" ry="130" fill="#c8f0a0" opacity="0.5" filter="url(#softBlur)" />
+    <ellipse cx="1000" cy="440" rx="280" ry="150" fill="#D4FF5B" opacity="0.5" filter="url(#softBlur)" />
+    <ellipse cx="1280" cy="560" rx="350" ry="160" fill="#D4FF5B" opacity="0.8" filter="url(#softBlur)" />
+
+    <!-- Band 2 -->
+    <ellipse cx="200" cy="1000" rx="350" ry="160" fill="#BEE9F8" opacity="0.8" filter="url(#softBlur)" />
+    <ellipse cx="480" cy="1080" rx="250" ry="140" fill="#BEE9F8" opacity="0.5" filter="url(#softBlur)" />
+    <ellipse cx="720" cy="1200" rx="220" ry="130" fill="#c8f0a0" opacity="0.5" filter="url(#softBlur)" />
+    <ellipse cx="1000" cy="1340" rx="280" ry="150" fill="#D4FF5B" opacity="0.5" filter="url(#softBlur)" />
+    <ellipse cx="1280" cy="1460" rx="350" ry="160" fill="#D4FF5B" opacity="0.8" filter="url(#softBlur)" />
+
+    <!-- Band 3 -->
+    <ellipse cx="200" cy="1900" rx="350" ry="160" fill="#BEE9F8" opacity="0.8" filter="url(#softBlur)" />
+    <ellipse cx="480" cy="1980" rx="250" ry="140" fill="#BEE9F8" opacity="0.5" filter="url(#softBlur)" />
+    <ellipse cx="720" cy="2100" rx="220" ry="130" fill="#c8f0a0" opacity="0.5" filter="url(#softBlur)" />
+    <ellipse cx="1000" cy="2240" rx="280" ry="150" fill="#D4FF5B" opacity="0.5" filter="url(#softBlur)" />
+    <ellipse cx="1280" cy="2360" rx="350" ry="160" fill="#D4FF5B" opacity="0.8" filter="url(#softBlur)" />
+
+    <!-- Band 4 -->
+    <ellipse cx="200" cy="2800" rx="350" ry="160" fill="#BEE9F8" opacity="0.8" filter="url(#softBlur)" />
+    <ellipse cx="480" cy="2880" rx="250" ry="140" fill="#BEE9F8" opacity="0.5" filter="url(#softBlur)" />
+    <ellipse cx="720" cy="3000" rx="220" ry="130" fill="#c8f0a0" opacity="0.5" filter="url(#softBlur)" />
+    <ellipse cx="1000" cy="3140" rx="280" ry="150" fill="#D4FF5B" opacity="0.5" filter="url(#softBlur)" />
+    <ellipse cx="1280" cy="3260" rx="350" ry="160" fill="#D4FF5B" opacity="0.8" filter="url(#softBlur)" />
+
+    <!-- Band 5 -->
+    <ellipse cx="200" cy="3700" rx="350" ry="160" fill="#BEE9F8" opacity="0.8" filter="url(#softBlur)" />
+    <ellipse cx="480" cy="3780" rx="250" ry="140" fill="#BEE9F8" opacity="0.5" filter="url(#softBlur)" />
+    <ellipse cx="720" cy="3900" rx="220" ry="130" fill="#c8f0a0" opacity="0.5" filter="url(#softBlur)" />
+    <ellipse cx="1000" cy="4040" rx="280" ry="150" fill="#D4FF5B" opacity="0.5" filter="url(#softBlur)" />
+    <ellipse cx="1280" cy="4160" rx="350" ry="160" fill="#D4FF5B" opacity="0.8" filter="url(#softBlur)" />
+  </g>
+</svg>

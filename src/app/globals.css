@@ -1,16 +1,66 @@
+@font-face {
+  font-family: 'Clash Display';
+  src: url('/fonts/ClashDisplay-200.woff2') format('woff2');
+  font-weight: 200;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Clash Display';
+  src: url('/fonts/ClashDisplay-300.woff2') format('woff2');
+  font-weight: 300;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Clash Display';
+  src: url('/fonts/ClashDisplay-400.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Clash Display';
+  src: url('/fonts/ClashDisplay-500.woff2') format('woff2');
+  font-weight: 500;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Clash Display';
+  src: url('/fonts/ClashDisplay-600.woff2') format('woff2');
+  font-weight: 600;
+  font-display: swap;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Clash Display';
+  src: url('/fonts/ClashDisplay-700.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+  font-style: normal;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   body {
-    @apply bg-white text-gray-900;
+    @apply bg-[#F9F9F9] text-black;
+    font-family: 'Clash Display', system-ui, sans-serif;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
-  
+
   html {
     scroll-behavior: smooth;
   }
+}
+
+/* Dot pattern overlay */
+.dot-pattern {
+  background-image: radial-gradient(circle, #00000018 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 @layer components {
@@ -23,11 +73,11 @@
   }
   
   .btn-primary {
-    @apply bg-black text-white px-6 py-2.5 rounded-[12px] font-medium hover:bg-gray-800 transition-all duration-200 shadow-sm hover:shadow-md;
+    @apply bg-black text-white px-6 py-2.5 rounded-[12px] font-medium hover:bg-black/80 transition-all duration-200 shadow-sm hover:shadow-md;
   }
-  
+
   .btn-secondary {
-    @apply border border-gray-300 text-gray-700 px-6 py-2.5 rounded-[12px] font-medium hover:bg-gray-50 transition-all duration-200;
+    @apply border border-black text-black px-6 py-2.5 rounded-[12px] font-medium hover:bg-black hover:text-white transition-all duration-200;
   }
   
   .card {
@@ -40,6 +90,10 @@
 }
 
 @layer utilities {
+  .writing-vertical {
+    writing-mode: vertical-rl;
+  }
+
   .text-gradient {
     @apply bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent;
   }
