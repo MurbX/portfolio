@@ -1,273 +1,267 @@
-'use client'
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import * as motion from "motion/react-client";
+import { CtaCard } from "@/components/cta-card";
+import { ProjectMedia } from "@/components/project-media";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
+import { projects } from "@/content/projects";
+import { site } from "@/content/site";
+import { fadeUp, stagger } from "@/lib/motion";
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { useParams } from 'next/navigation'
-import { motion } from 'framer-motion'
-import { ArrowLeft, ArrowUpRight, Calendar, User, Monitor, Smartphone } from 'lucide-react'
-import { getProjectBySlug, projects, type ProjectImage } from '@/lib/project-data'
-import { useState } from 'react'
+export const dynamicParams = false;
 
-function PlatformIcon({ platform }: { platform: string }) {
-  if (platform === 'mobile') return <Smartphone size={16} />
-  if (platform === 'both')
-    return (
-      <span className="flex gap-1">
-        <Monitor size={16} />
-        <Smartphone size={16} />
-      </span>
-    )
-  return <Monitor size={16} />
+export function generateStaticParams() {
+  return projects.map((p) => ({ slug: p.slug }));
 }
 
-function BrowserFrame({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="rounded-2xl overflow-hidden border border-gray-200 bg-white shadow-2xl">
-      {/* Browser top bar */}
-      <div className="bg-gray-100 border-b border-gray-200 px-4 py-3 flex items-center gap-3">
-        <div className="flex gap-1.5">
-          <div className="w-3 h-3 rounded-full bg-[#FF5F57]" />
-          <div className="w-3 h-3 rounded-full bg-[#FEBC2E]" />
-          <div className="w-3 h-3 rounded-full bg-[#28C840]" />
-        </div>
-        <div className="flex-1 mx-8">
-          <div className="bg-white rounded-md h-7 border border-gray-200" />
-        </div>
-      </div>
-      {children}
-    </div>
-  )
+export async function generateMetadata({ params }: PageProps<"/projects/[slug]">): Promise<Metadata> {
+  const { slug } = await params;
+  const project = projects.find((p) => p.slug === slug);
+  if (!project) return {};
+  const title = `${project.name} — ${site.name}`;
+  const url = `/projects/${project.slug}`;
+  // Nested openGraph/twitter objects replace the layout's, so repeat the shared fields.
+  // The image comes from opengraph-image.tsx in this folder.
+  return {
+    title,
+    description: project.summary,
+    alternates: { canonical: url },
+    openGraph: { type: "article", url, siteName: site.name, title, description: project.summary, locale: "en_US" },
+    twitter: { card: "summary_large_image", creator: site.xHandle, title, description: project.summary },
+  };
 }
 
-function PhoneFrame({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="inline-block rounded-[2.5rem] border-[6px] border-gray-800 bg-gray-800 shadow-2xl overflow-hidden">
-      {/* Notch */}
-      <div className="relative bg-black">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-28 h-6 bg-gray-800 rounded-b-2xl z-10" />
-      </div>
-      {children}
-    </div>
-  )
-}
+export default async function ProjectPage({ params }: PageProps<"/projects/[slug]">) {
+  const { slug } = await params;
+  const index = projects.findIndex((p) => p.slug === slug);
+  if (index === -1) notFound();
 
-function ScreenDisplay({ image, title, index }: { image: ProjectImage; title: string; index: number }) {
-  if (image.isMobile) {
-    return (
-      <div className="flex justify-center py-10 px-4 bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl">
-        <PhoneFrame>
-          <div className="relative w-[280px] h-[600px] lg:w-[320px] lg:h-[690px]">
-            <Image
-              src={image.src}
-              alt={`${title} screenshot ${index + 1}`}
-              fill
-              className="object-cover"
-              priority={index === 0}
-            />
-          </div>
-        </PhoneFrame>
-      </div>
-    )
-  }
+  const project = projects[index];
+  const [hero, ...gallery] = project.gallery;
+  const prev = projects[(index - 1 + projects.length) % projects.length];
+  const next = projects[(index + 1) % projects.length];
+
+  const facts: [string, string | undefined][] = [
+    ["Role", project.role],
+    ["Year", project.year],
+    ["Type", project.type],
+    ["Duration", project.duration],
+    ["Client", project.client],
+    ["Team", project.team],
+  ];
 
   return (
-    <div className="p-4 lg:p-8 bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl">
-      <BrowserFrame>
-        <div className="relative w-full aspect-[16/10]">
-          <Image
-            src={image.src}
-            alt={`${title} screenshot ${index + 1}`}
-            fill
-            className="object-cover"
-            priority={index === 0}
-          />
-        </div>
-      </BrowserFrame>
-    </div>
-  )
-}
+    <div className="mx-auto w-full max-w-[72rem] px-6 pb-10">
+      <SiteHeader />
 
-export default function ProjectPage() {
-  const { slug } = useParams<{ slug: string }>()
-  const project = getProjectBySlug(slug)
-  const [selectedImage, setSelectedImage] = useState(0)
-
-  if (!project) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F9F9F9]">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Project Not Found</h1>
-          <Link href="/#projects" className="btn-primary inline-flex items-center gap-2">
-            <ArrowLeft size={18} />
-            Back to Portfolio
-          </Link>
-        </div>
-      </div>
-    )
-  }
-
-  const currentImage = project.images[selectedImage]
-
-  return (
-    <main className="min-h-screen bg-[#F9F9F9] relative">
-      {/* Background */}
-      <div
-        className="absolute inset-0 -z-20 w-full h-full"
-        style={{
-          backgroundImage: "url('/mesh-gradient.svg')",
-          backgroundSize: '100% 100%',
-          backgroundPosition: 'top center',
-          backgroundRepeat: 'no-repeat',
-        }}
-      />
-      <div className="absolute inset-0 -z-10 w-full h-full dot-pattern opacity-[0.35]" />
-
-      {/* Nav */}
-      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200/50">
-        <div className="max-w-[1400px] mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
+      <motion.main className="mt-10" variants={stagger(0.08)} initial="hidden" animate="show">
+        <motion.div variants={fadeUp}>
           <Link
-            href="/#projects"
-            className="inline-flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-black transition-colors"
+            href="/#work"
+            className="inline-flex items-center gap-2 text-[14px] font-medium text-neutral-500 transition-colors hover:text-foreground"
           >
-            <ArrowLeft size={18} />
-            Back to Portfolio
+            <span aria-hidden="true">&larr;</span> All work
           </Link>
-          {project.liveLink && (
+        </motion.div>
+
+        <motion.div variants={fadeUp} className="mt-6 flex flex-wrap items-end justify-between gap-6">
+          <div className="max-w-2xl">
+            <span className="inline-flex h-[30px] items-center rounded-full bg-white px-3.5 text-[13px] font-medium shadow-[0_2px_10px_rgba(0,0,0,0.08)]">
+              {project.category}
+            </span>
+            <h1 className="mt-4 text-[2.5rem] font-bold leading-tight tracking-tight sm:text-[3rem]">
+              {project.name}
+            </h1>
+            <p className="mt-3 text-lg leading-relaxed text-neutral-600">{project.summary}</p>
+          </div>
+          {project.liveUrl && (
             <a
-              href={project.liveLink}
+              href={project.liveUrl}
               target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary inline-flex items-center gap-2 text-sm"
+              rel="noreferrer"
+              className="inline-flex h-12 items-center gap-2 rounded-full bg-foreground px-6 text-[15px] font-medium text-background transition-colors hover:bg-neutral-800"
             >
-              Visit Live Site
-              <ArrowUpRight size={16} />
+              Visit live site <span aria-hidden="true">&#8599;</span>
             </a>
           )}
-        </div>
-      </nav>
-
-      <div className="max-w-[1400px] mx-auto px-6 lg:px-10 py-12 lg:py-20">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-12"
-        >
-          <div className="flex flex-wrap items-center gap-3 mb-6">
-            {project.tags.map((tag) => (
-              <span
-                key={tag}
-                className="px-4 py-1.5 bg-black text-white text-xs font-semibold rounded-full"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-
-          <h1 className="text-4xl lg:text-6xl font-bold mb-3">{project.title}</h1>
-          <p className="text-xl lg:text-2xl text-gray-500 font-medium mb-8">{project.subtitle}</p>
-
-          <div className="flex flex-wrap items-center gap-6 text-sm text-gray-500">
-            <span className="inline-flex items-center gap-2">
-              <User size={16} />
-              {project.role}
-            </span>
-            <span className="inline-flex items-center gap-2">
-              <Calendar size={16} />
-              {project.year}
-            </span>
-            <span className="inline-flex items-center gap-2">
-              <PlatformIcon platform={project.platform} />
-              {project.platform === 'both'
-                ? 'Web & Mobile'
-                : project.platform === 'mobile'
-                  ? 'Mobile App'
-                  : 'Web App'}
-            </span>
-          </div>
         </motion.div>
 
-        {/* Main Image with Device Frame */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.15 }}
-          className="mb-6"
-        >
-          <ScreenDisplay image={currentImage} title={project.title} index={selectedImage} />
+        {/* Key facts */}
+        <motion.dl variants={fadeUp} className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+          {facts
+            .filter((f): f is [string, string] => Boolean(f[1]))
+            .map(([label, value]) => (
+              <div
+                key={label}
+                className="rounded-2xl border border-black/[0.06] bg-white/70 px-4 py-3"
+              >
+                <dt className="text-[11px] font-medium uppercase tracking-[0.12em] text-neutral-400">
+                  {label}
+                </dt>
+                <dd className="mt-1 text-[13.5px] font-medium leading-snug">{value}</dd>
+              </div>
+            ))}
+        </motion.dl>
+
+        <motion.div variants={fadeUp} className="mt-8">
+          <ProjectMedia
+            src={hero.src}
+            alt={hero.alt}
+            frame={hero.frame}
+            tint={project.tint}
+            sizes="(min-width: 1152px) 1104px, 100vw"
+            priority
+            className={`rounded-[22px] border border-black/[0.06] ${
+              hero.frame === "browser" ? "aspect-[16/10]" : "aspect-[16/9]"
+            }`}
+          />
         </motion.div>
 
-        {/* Thumbnail Strip */}
-        {project.images.length > 1 && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.25 }}
-            className="flex gap-3 mb-16 overflow-x-auto pb-2"
-          >
-            {project.images.map((img, i) => (
-              <button
-                key={img.src}
-                onClick={() => setSelectedImage(i)}
-                className={`relative flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all duration-200 ${
-                  img.isMobile ? 'w-16 h-24 lg:w-20 lg:h-28' : 'w-28 h-20 lg:w-36 lg:h-24'
-                } ${
-                  selectedImage === i
-                    ? 'border-black shadow-lg scale-105'
-                    : 'border-gray-200 hover:border-gray-400 opacity-60 hover:opacity-100'
-                }`}
-              >
-                <Image src={img.src} alt={`Thumbnail ${i + 1}`} fill className="object-cover" />
-              </button>
-            ))}
-          </motion.div>
+        {/* About + highlights */}
+        <motion.section
+          variants={fadeUp}
+          className="mt-14 grid gap-10 md:grid-cols-[1.4fr_1fr] md:gap-14"
+        >
+          <div>
+            <h2 className="text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-400">
+              About the project
+            </h2>
+            <div className="mt-4 space-y-4 text-[16.5px] leading-[1.7] text-neutral-700">
+              {project.about.map((paragraph) => (
+                <p key={paragraph.slice(0, 40)}>{paragraph}</p>
+              ))}
+            </div>
+            {project.agency && (
+              <p className="mt-6 text-[13px] text-neutral-500">
+                Built with the team at{" "}
+                <span className="font-medium text-neutral-700">{project.agency}</span>.
+              </p>
+            )}
+          </div>
+
+          <div className="space-y-8">
+            <div>
+              <h2 className="text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-400">
+                Highlights
+              </h2>
+              <ul className="mt-4 space-y-2.5">
+                {project.highlights.map((item) => (
+                  <li key={item} className="flex items-start gap-2.5 text-[14px] leading-snug">
+                    <svg viewBox="0 0 16 16" className="mt-0.5 size-4 shrink-0 text-accent" aria-hidden="true">
+                      <circle cx="8" cy="8" r="8" fill="currentColor" opacity="0.15" />
+                      <path d="M4.5 8.2l2.3 2.3 4.7-4.7" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h2 className="text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-400">
+                Stack
+              </h2>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {project.tags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full border border-neutral-200 bg-white px-3 py-1.5 text-[12.5px] font-medium"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {project.deliverables && (
+              <div>
+                <h2 className="text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-400">
+                  Delivered
+                </h2>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {project.deliverables.map((item) => (
+                    <span
+                      key={item}
+                      className="rounded-full bg-neutral-900 px-3 py-1.5 text-[12.5px] font-medium text-white"
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </motion.section>
+
+        {gallery.length > 0 && (
+          <section className="mt-14" aria-label="Gallery">
+            <div className="grid gap-6 sm:grid-cols-2">
+              {gallery.map((item, i) => (
+                <motion.div
+                  key={item.src}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ type: "spring", stiffness: 120, damping: 18, delay: (i % 2) * 0.08 }}
+                >
+                  <ProjectMedia
+                    src={item.src}
+                    alt={item.alt}
+                    frame={item.frame}
+                    tint={project.tint}
+                    sizes="(min-width: 640px) 50vw, 100vw"
+                    className="aspect-[16/10] rounded-[22px] border border-black/[0.06]"
+                  />
+                </motion.div>
+              ))}
+            </div>
+          </section>
         )}
 
-        {/* Description */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="max-w-3xl mb-20"
-        >
-          <h2 className="text-2xl font-bold mb-4">About this project</h2>
-          <p className="text-gray-600 text-lg leading-relaxed">{project.description}</p>
-        </motion.div>
+        {/* Previous / next */}
+        <nav className="mt-16 grid gap-6 sm:grid-cols-2" aria-label="More projects">
+          {[
+            { label: "Previous", project: prev, arrow: "←" },
+            { label: "Next", project: next, arrow: "→" },
+          ].map(({ label, project: p, arrow }) => (
+            <Link
+              key={label}
+              href={`/projects/${p.slug}`}
+              className={`group flex items-center gap-4 rounded-[22px] border border-black/[0.06] bg-white/70 p-4 transition-colors hover:bg-white ${
+                label === "Next" ? "sm:flex-row-reverse sm:text-right" : ""
+              }`}
+            >
+              <ProjectMedia
+                src={p.gallery[0].src}
+                alt=""
+                frame={p.gallery[0].frame}
+                tint={p.tint}
+                sizes="160px"
+                className="aspect-[4/3] w-28 shrink-0 rounded-xl"
+              />
+              <div className="min-w-0">
+                <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-neutral-400">
+                  {arrow} {label}
+                </p>
+                <p className="mt-1 truncate text-[16px] font-semibold group-hover:underline">{p.name}</p>
+                <p className="mt-0.5 truncate text-[13px] text-neutral-500">{p.tagline}</p>
+              </div>
+            </Link>
+          ))}
+        </nav>
 
-        {/* More Projects */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-        >
-          <h2 className="text-2xl font-bold mb-8">More Projects</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects
-              .filter((p) => p.slug !== project.slug)
-              .slice(0, 3)
-              .map((p) => (
-                <Link key={p.slug} href={`/projects/${p.slug}`}>
-                  <div className="group relative rounded-2xl overflow-hidden cursor-pointer">
-                    <div className="relative h-52 bg-gray-100">
-                      <Image
-                        src={p.cardImage}
-                        alt={p.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 p-5">
-                      <h3 className="text-lg font-bold text-white">{p.title}</h3>
-                      <p className="text-white/70 text-sm">{p.subtitle}</p>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-          </div>
-        </motion.div>
-      </div>
-    </main>
-  )
+        <div className="mt-16">
+          <CtaCard
+            eyebrow="Have a similar project?"
+            title="Let’s build yours."
+            body="Tell me what you’re working on and I’ll come back with an approach, a timeline and a straight answer on cost."
+            className="min-h-[18rem]"
+          />
+        </div>
+      </motion.main>
+      <SiteFooter />
+    </div>
+  );
 }

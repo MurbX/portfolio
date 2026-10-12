@@ -1,38 +1,23 @@
-import Header from '@/components/Header'
-import Hero from '@/components/Hero'
-import About from '@/components/About'
-import Skills from '@/components/Skills'
-import WorkProcess from '@/components/WorkProcess'
-import Testimonials from '@/components/Testimonials'
-import Projects from '@/components/Projects'
-import Contact from '@/components/Contact'
-import Footer from '@/components/Footer'
+import { Bento } from "@/components/bento";
+import { Hero } from "@/components/hero";
+import { Services } from "@/components/services";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
+import { Testimonials } from "@/components/testimonials";
+import { Work } from "@/components/work";
 
 export default function Home() {
   return (
-    <main className="min-h-screen relative">
-      {/* Full-page ribbon gradient background */}
-      <div
-        className="absolute inset-0 -z-20 w-full h-full"
-        style={{
-          backgroundImage: "url('/mesh-gradient.svg')",
-          backgroundSize: '100% 100%',
-          backgroundPosition: 'top center',
-          backgroundRepeat: 'no-repeat',
-        }}
-      />
-      {/* Dot pattern overlay */}
-      <div className="absolute inset-0 -z-10 w-full h-full dot-pattern opacity-[0.35]" />
-
-      <Header />
-      <Hero />
-      <Skills />
-      <About />
-      <WorkProcess />
-      <Testimonials />
-      <Projects />
-      <Contact />
-      <Footer />
-    </main>
-  )
+    <div className="mx-auto w-full max-w-[72rem] px-6 pb-10">
+      <SiteHeader />
+      <main>
+        <Hero />
+        <Bento />
+        <Services />
+        <Work />
+        <Testimonials />
+      </main>
+      <SiteFooter />
+    </div>
+  );
 }

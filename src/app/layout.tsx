@@ -1,46 +1,53 @@
-import type { Metadata } from 'next'
-import './globals.css'
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import { Background } from "@/components/background";
+import { Providers } from "@/components/providers";
+import { site } from "@/content/site";
+import "./globals.css";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://murbxp.dev'),
-  title: 'Brian Mutuku — No-Code / Pro-Code Developer & Full-Stack Solutions Architect',
-  description:
-    'Versatile developer with 5+ years of expertise architecting enterprise-grade applications across Bubble.io, Flutter, React, and TypeScript. Delivering scalable solutions across healthcare, fintech, proptech, and community platforms.',
-  keywords: [
-    'Brian Mutuku',
-    'No-Code Developer',
-    'Bubble.io Developer',
-    'Flutter Developer',
-    'React Developer',
-    'Full-Stack Architect',
-    'Portfolio',
-  ],
-  authors: [{ name: 'Brian Mutuku', url: 'https://murbxp.dev' }],
+  metadataBase: new URL(site.url),
+  title: `${site.name} — ${site.role}`,
+  description: site.description,
+  alternates: { canonical: "/" },
+  // Link previews; the image comes from app/opengraph-image.tsx.
   openGraph: {
-    title: 'Brian Mutuku — No-Code / Pro-Code Developer',
-    description:
-      'Architecting enterprise-grade applications across Bubble.io, Flutter, React, and TypeScript.',
-    url: 'https://murbxp.dev',
-    siteName: 'Brian Mutuku Portfolio',
-    locale: 'en_US',
-    type: 'website',
+    type: "website",
+    url: "/",
+    siteName: site.name,
+    title: `${site.name} — ${site.role}`,
+    description: site.description,
+    locale: "en_US",
   },
   twitter: {
-    card: 'summary_large_image',
-    title: 'Brian Mutuku — No-Code / Pro-Code Developer',
-    description:
-      'Architecting enterprise-grade applications across Bubble.io, Flutter, React, and TypeScript.',
+    card: "summary_large_image",
+    creator: site.xHandle,
+    title: `${site.name} — ${site.role}`,
+    description: site.description,
   },
-}
+};
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className="scroll-smooth">
-      <body className="font-sans">{children}</body>
+    <html
+      lang="en"
+      data-scroll-behavior="smooth"
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+    >
+      <body className="min-h-full flex flex-col">
+        <Background />
+        <Providers>{children}</Providers>
+      </body>
     </html>
-  )
+  );
 }
