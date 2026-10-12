@@ -1,13 +1,18 @@
 import Image from "next/image";
+import { DeviceFrame, deviceAspect, deviceFor } from "@/components/device-frame";
 import type { Frame } from "@/content/projects";
 
 // A project image on a tinted panel. `className` must set the aspect ratio and rounding.
+// Pass the image's pixel size to pick the right device (phone or laptop) and let long
+// screenshots scroll on hover; without it a screen shows on a MacBook from the top.
 export function ProjectMedia({
   src,
   alt,
   frame,
   tint,
   sizes,
+  imageWidth,
+  imageHeight,
   priority = false,
   className = "",
 }: {
@@ -16,29 +21,36 @@ export function ProjectMedia({
   frame: Frame;
   tint: string;
   sizes: string;
+  imageWidth?: number;
+  imageHeight?: number;
   priority?: boolean;
   className?: string;
 }) {
+  const device = imageWidth && imageHeight ? deviceFor(imageWidth, imageHeight) : "macbook";
+
   return (
     <div className={`relative overflow-hidden bg-linear-to-br ${tint} ${className}`}>
-      {frame === "browser" && (
-        // Raw screenshot inside a browser window, cropped at the panel's bottom edge.
-        <div className="absolute inset-x-[7%] top-[11%] flex h-[120%] flex-col overflow-hidden rounded-t-xl border border-black/10 bg-white shadow-[0_16px_40px_rgba(0,0,0,0.18)]">
-          <div className="flex items-center gap-1.5 border-b border-black/[0.06] bg-neutral-50 px-3 py-2">
-            <span className="size-2 rounded-full bg-neutral-300" />
-            <span className="size-2 rounded-full bg-neutral-300" />
-            <span className="size-2 rounded-full bg-neutral-300" />
-          </div>
-          <div className="relative flex-1">
-            <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className="object-cover object-top" />
-          </div>
+      {frame === "screen" && (
+        // The device is as large as the panel allows while keeping its own shape.
+        <div className="absolute inset-[7%] flex items-center justify-center @container-size">
+          <DeviceFrame
+            device={device}
+            src={src}
+            alt={alt}
+            sizes={sizes}
+            imageWidth={imageWidth}
+            imageHeight={imageHeight}
+            priority={priority}
+            className="shrink-0"
+            style={{ width: `min(100cqw, ${deviceAspect(device) * 100}cqh)` }}
+          />
         </div>
       )}
       {frame === "mockup" && (
         <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className="object-contain p-[4%]" />
       )}
       {frame === "none" && (
-        <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className="object-cover" />
+        <Image src={src} alt={alt} fill sizes={sizes} priority={priority} className="object-contain p-[4%]" />
       )}
     </div>
   );

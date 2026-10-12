@@ -2,10 +2,11 @@
 // Display order is the `order` list at the bottom; `featured` entries are double width.
 
 // How an image is presented on its tinted panel:
-//   browser – raw screenshot inside a browser window (cropped at the bottom)
-//   mockup  – device mockup with a transparent background, shown whole
-//   none    – composed image, full-bleed
-export type Frame = "browser" | "mockup" | "none";
+//   screen – raw screenshot, shown in an Apple device frame (iPhone for phone-shaped
+//            images, MacBook otherwise); long pages scroll inside the screen on hover
+//   mockup – device mockup with a transparent background, shown whole
+//   none   – composed image, shown whole
+export type Frame = "screen" | "mockup" | "none";
 
 export type Media = { src: string; alt: string; frame: Frame };
 
@@ -69,39 +70,13 @@ const entries: Project[] = [
     ],
     deliverables: ["Full-stack development", "Data model & auth", "Patient and therapist portals"],
     gallery: [
-      { src: "/projects/curebox-2.png", alt: "Curebox patient dashboard", frame: "browser" },
-      { src: "/projects/curebox-1.png", alt: "Curebox sign in", frame: "browser" },
-      { src: "/projects/curebox-3.png", alt: "Curebox session booking", frame: "browser" },
-      { src: "/projects/curebox-4.png", alt: "Curebox therapist profile", frame: "browser" },
-      { src: "/projects/curebox-5.png", alt: "Curebox settings", frame: "browser" },
+      { src: "/projects/curebox-mockup.png", alt: "Curebox dashboard and specialist search on two desktops", frame: "mockup" },
+      { src: "/projects/curebox-2.png", alt: "Curebox patient dashboard", frame: "screen" },
+      { src: "/projects/curebox-1.png", alt: "Curebox sign in", frame: "screen" },
+      { src: "/projects/curebox-3.png", alt: "Curebox specialist search with map", frame: "screen" },
+      { src: "/projects/curebox-4.png", alt: "Curebox session type picker", frame: "screen" },
+      { src: "/projects/curebox-5.png", alt: "Curebox settings", frame: "screen" },
     ],
-  },
-  {
-    slug: "palmera-ai",
-    name: "Palmera AI",
-    tagline: "AI-powered real-estate platform for finding and evaluating properties.",
-    category: "Proptech · AI",
-    tags: ["Bubble.io", "OpenAI"],
-    tint: "from-sky-100 to-indigo-200",
-    summary:
-      "An AI-powered real-estate platform that gives agents intelligent property recommendations, market analysis and automated listing management.",
-    role: "Full-Stack Developer",
-    year: "2025",
-    type: "Web app",
-    liveUrl: "https://ai.palmera.realestate/",
-    about: [
-      "Palmera AI brings machine learning to real-estate professionals: it recommends properties that fit a client’s criteria, analyses market data and automates listing management, so agents spend less time on admin and more time closing.",
-      "I built the product on Bubble.io with OpenAI integrations powering the recommendation and analysis features, and designed the data model, the agent workflows and the public-facing property experience.",
-    ],
-    highlights: [
-      "AI property recommendations tailored to client criteria",
-      "Market analysis and insights",
-      "Automated listing management",
-      "Agent dashboard and workflows",
-      "OpenAI integration powering recommendations and analysis",
-    ],
-    deliverables: ["Product build on Bubble.io", "Data model & workflows", "AI integrations"],
-    gallery: [{ src: "/projects/palmera-ai.png", alt: "Palmera AI property search", frame: "browser" }],
   },
   {
     slug: "powercouple",
@@ -311,10 +286,10 @@ const entries: Project[] = [
     deliverables: ["UX/UI design", "Design system", "Prototype"],
     gallery: [
       { src: "/projects/samsung-mockup.png", alt: "Galaxy Move desktop and mobile mockup", frame: "mockup" },
-      { src: "/projects/samsung-1.png", alt: "Galaxy Move dashboard", frame: "browser" },
-      { src: "/projects/samsung-2.png", alt: "Galaxy Move community feed", frame: "browser" },
-      { src: "/projects/samsung-3.png", alt: "Galaxy Move academy", frame: "browser" },
-      { src: "/projects/samsung-4.png", alt: "Galaxy Move events", frame: "browser" },
+      { src: "/projects/samsung-1.png", alt: "Galaxy Move dashboard", frame: "screen" },
+      { src: "/projects/samsung-2.png", alt: "Galaxy Move community feed", frame: "screen" },
+      { src: "/projects/samsung-3.png", alt: "Galaxy Move academy", frame: "screen" },
+      { src: "/projects/samsung-4.png", alt: "Galaxy Move events", frame: "screen" },
       { src: "/projects/samsung-5.jpg", alt: "Galaxy Move screens", frame: "none" },
       { src: "/projects/samsung-6.jpg", alt: "Galaxy Move mobile screens", frame: "none" },
     ],
@@ -344,10 +319,11 @@ const entries: Project[] = [
     ],
     deliverables: ["UX/UI design", "Prototype", "Responsive layouts"],
     gallery: [
-      { src: "/projects/printika-1.png", alt: "Printika product editor", frame: "browser" },
-      { src: "/projects/printika-2.png", alt: "Printika catalogue", frame: "browser" },
-      { src: "/projects/printika-3.png", alt: "Printika preview", frame: "browser" },
-      { src: "/projects/printika-4.png", alt: "Printika checkout", frame: "browser" },
+      { src: "/projects/printika-mockup.png", alt: "Printika design editor and sign-in on two desktops", frame: "mockup" },
+      { src: "/projects/printika-1.png", alt: "Printika design editor with a T-shirt", frame: "screen" },
+      { src: "/projects/printika-2.png", alt: "Printika size and quantity step", frame: "screen" },
+      { src: "/projects/printika-3.jpg", alt: "Printika sign-in", frame: "screen" },
+      { src: "/projects/printika-4.png", alt: "Printika product picker", frame: "screen" },
     ],
   },
   {
@@ -380,26 +356,95 @@ const entries: Project[] = [
     deliverables: ["UX/UI design", "Product specification", "Multi-settlement admin design"],
     gallery: [
       { src: "/projects/eshuv-mockup.png", alt: "Eshuv mobile app mockup", frame: "mockup" },
-      { src: "/projects/eshuv-1.png", alt: "Eshuv feed", frame: "browser" },
-      { src: "/projects/eshuv-2.png", alt: "Eshuv events", frame: "browser" },
-      { src: "/projects/eshuv-3.png", alt: "Eshuv admin dashboard", frame: "browser" },
-      { src: "/projects/eshuv-4.png", alt: "Eshuv resident management", frame: "browser" },
+      { src: "/projects/eshuv-1.png", alt: "Eshuv feed", frame: "screen" },
+      { src: "/projects/eshuv-2.png", alt: "Eshuv events", frame: "screen" },
+      { src: "/projects/eshuv-3.png", alt: "Eshuv admin dashboard", frame: "screen" },
+      { src: "/projects/eshuv-4.png", alt: "Eshuv resident management", frame: "screen" },
+    ],
+  },
+  {
+    slug: "hunters",
+    name: "Hunters",
+    tagline: "Recruitment marketplace where jobs become tenders and head-hunters compete.",
+    category: "Recruitment",
+    tags: ["Figma", "UI/UX"],
+    tint: "from-cyan-100 to-teal-200",
+    summary:
+      "A recruitment marketplace connecting companies, head-hunters and talents, where jobs become tenders and the best candidates win.",
+    role: "UI/UX Designer",
+    year: "2026",
+    type: "Web app",
+    agency: "Deploy Technologies",
+    duration: "3.5 months (Feb – May 2026)",
+    team: deployTeam,
+    about: [
+      "Hunters turns recruitment into a marketplace. Companies publish positions as tenders with budget ranges, head-hunters compete to submit the best candidates, and talents, free or pro, apply directly or get represented. Each side sees the same position through its own lens, and the platform runs the whole hiring transaction: candidate submission and in-process tracking, NDA flows for confidential roles, recommendation cards, and deal-closing flows with success notifications.",
+      "Profiles carry skills, experience, salary expectations and portfolio links, and an AI layer can fill in a talent's work history and education straight from an uploaded CV. Subscriptions, payments and a points economy are built in, alongside an internal inbox and chat, a personal interview calendar, and automatic matching. A dark-teal marketing site with pages for head-hunters, organisations and talents leads into a role-based onboarding.",
+    ],
+    highlights: [
+      "Positions published as tenders",
+      "Separate views for talents and head-hunters",
+      "NDA flows for confidential roles",
+      "AI profile building from an uploaded CV",
+      "Subscriptions, payments and points",
+      "Inbox, chat and interview calendar",
+    ],
+    deliverables: ["UX/UI design", "Marketing site design", "AI-assisted profile flows", "Development specification"],
+    gallery: [
+      { src: "/projects/hunters-mockup.png", alt: "Hunters on two desktops", frame: "mockup" },
+      { src: "/projects/hunters-1.png", alt: "Hunters positions board", frame: "screen" },
+      { src: "/projects/hunters-2.png", alt: "Hunters talent profile", frame: "screen" },
+      { src: "/projects/hunters-3.jpg", alt: "Hunters deal-closed confirmation", frame: "screen" },
+      { src: "/projects/hunters-4.png", alt: "Hunters role-based onboarding", frame: "screen" },
+    ],
+  },
+  {
+    slug: "clutch-ai",
+    name: "Clutch AI",
+    tagline: "AI ad studio that turns a brand kit into scored, ready-to-run campaigns.",
+    category: "AI · Marketing",
+    tags: ["React", "Supabase", "Vertex AI"],
+    tint: "from-indigo-100 to-blue-200",
+    summary:
+      "An AI ad-creation platform for businesses: set up a brand once, then generate campaign creatives, ad copy, product images, video and full ad packages, each scored with tips to improve it.",
+    role: "Full-Stack Developer",
+    year: "2026",
+    type: "Web app",
+    about: [
+      "Clutch AI helps businesses produce advertising without a design team. A user sets up a brand (logo, colours and tone of voice, or pulled straight from their website), then creates projects from it: campaign creatives, ad copy, product images, video, stock photos and complete ad packages. Every result is scored, with concrete tips for making it perform better.",
+      "I built it end to end: a Hebrew, right-to-left React 19 and TypeScript front end; a Supabase backend with row-level security, storage, realtime updates and Deno edge functions; image, text and video generation on Google Vertex AI (Gemini and Veo) with OpenAI as automatic failover; Stripe subscriptions with a 7-day free trial; and an admin area for revenue, plans, prompts, the ad library and error alerts.",
+    ],
+    highlights: [
+      "Brand kits from a logo, colours or a website",
+      "Creatives, copy, product images and video",
+      "Every result scored with improvement tips",
+      "Gemini and Veo with OpenAI failover",
+      "Stripe subscriptions with a free trial",
+      "Admin area for revenue, prompts and alerts",
+    ],
+    deliverables: ["Full-stack development", "AI integrations", "Payments", "Admin dashboard"],
+    gallery: [
+      { src: "/projects/clutch-mockup.png", alt: "Clutch AI sign-up and sign-in on two desktops", frame: "mockup" },
+      { src: "/projects/clutch-1.jpg", alt: "Clutch AI sign-up with a wall of ads made in Clutch", frame: "screen" },
+      { src: "/projects/clutch-2.jpg", alt: "Clutch AI sign-in", frame: "screen" },
     ],
   },
 ];
 
-// Display order: polished mockups first, raw screenshots last. Reorder freely.
+// Display order. Rows on the home page hold three regular cards or two `featured`
+// ones, so keep regulars in threes. The first six show before "Show all".
 const order = [
-  "katchings",
-  "craftad",
+  "clutch-ai",
+  "hunters",
+  "printika",
+  "eshuv",
   "powercouple",
   "ffili",
+  "katchings",
+  "craftad",
   "ahna-system",
   "samsung-community",
-  "eshuv",
   "curebox",
-  "palmera-ai",
-  "printika",
 ];
 
 export const projects: Project[] = order.map((slug) => {

@@ -1,28 +1,40 @@
 import Image from "next/image";
 import * as motion from "motion/react-client";
-import type { ComponentProps } from "react";
+import type { ComponentProps, CSSProperties } from "react";
 import { Card } from "@/components/card";
+import { CountUp } from "@/components/count-up";
+import { ExperienceTimeline } from "@/components/experience-timeline";
 import { HowIWork } from "@/components/how-i-work";
-import { experience, location, playlist, reading } from "@/content/about";
-import { stagger } from "@/lib/motion";
+import { experience, location, playlist, projectsDelivered, reading } from "@/content/about";
+import { site } from "@/content/site";
+import { fadeUp, stagger } from "@/lib/motion";
 
 type MotionDivProps = ComponentProps<typeof motion.div>;
 
 function Experience() {
+  const since = experience[experience.length - 1].year;
+  const years = new Date().getFullYear() - since;
   return (
-    <Card label="My Experience" className="aspect-square">
-      {/* Scrolls if there are more entries than fit; edges fade out. */}
-      <div className="absolute inset-0 overflow-y-auto px-4 pb-6 pt-12 [scrollbar-width:none] [mask-image:linear-gradient(to_bottom,transparent_36px,black_60px,black_calc(100%-28px),transparent)]">
-        <ul className="ml-1 space-y-4 border-l border-neutral-300 py-1 pl-4">
-          {experience.map((job) => (
-            <li key={job.title + job.meta} className="relative">
-              <span className="absolute -left-[20.5px] top-[5px] size-2 rounded-full bg-foreground" />
-              <p className="text-[13.5px] font-medium leading-tight">{job.title}</p>
-              <p className="mt-0.5 text-[12px] text-neutral-500">{job.meta}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
+    <Card label="My Experience" className="flex aspect-square flex-col">
+      <ExperienceTimeline jobs={experience} />
+
+      {/* Headline numbers: years from the timeline, projects from about.ts. Count up on view. */}
+      <motion.dl variants={fadeUp} className="grid grid-cols-2 border-t border-black/6">
+        <div className="px-4 py-3.5">
+          <dt className="sr-only">Experience</dt>
+          <dd className="text-[22px] font-semibold leading-none tracking-tight">
+            <CountUp value={`${years}+ yrs`} />
+          </dd>
+          <dd className="mt-1.5 text-[11px] leading-snug text-neutral-500">building since {since}</dd>
+        </div>
+        <div className="border-l border-black/6 px-4 py-3.5">
+          <dt className="sr-only">Projects</dt>
+          <dd className="text-[22px] font-semibold leading-none tracking-tight">
+            <CountUp value={projectsDelivered} />
+          </dd>
+          <dd className="mt-1.5 text-[11px] leading-snug text-neutral-500">projects delivered</dd>
+        </div>
+      </motion.dl>
     </Card>
   );
 }
@@ -62,6 +74,32 @@ function Cover({
   );
 }
 
+const notes = [
+  { delay: 0, className: "left-[38%] size-6 text-neutral-800", drift: "-16px", double: false },
+  { delay: 1.1, className: "left-[56%] size-7 text-accent", drift: "16px", double: true },
+  { delay: 2.2, className: "left-[47%] size-5 text-neutral-500", drift: "4px", double: false },
+];
+
+// ♪ and ♫ drawn as SVG, so they look the same in every font.
+function MusicNote({ double }: { double: boolean }) {
+  return (
+    <svg viewBox="0 0 24 24" className="size-full" fill="currentColor" aria-hidden="true">
+      {double ? (
+        <>
+          <path d="M8 6.5L19 4v11.5h-2V7.1L10 8.6v9.9H8z" />
+          <ellipse cx="6.2" cy="18.6" rx="3" ry="2.3" transform="rotate(-20 6.2 18.6)" />
+          <ellipse cx="15.2" cy="15.8" rx="3" ry="2.3" transform="rotate(-20 15.2 15.8)" />
+        </>
+      ) : (
+        <>
+          <path d="M12 3h2c.4 2.6 2.9 3.7 4.3 5.6.9 1.3.6 3-.4 4-.1-2.8-2-4-3.9-4.5V18h-2z" />
+          <ellipse cx="10" cy="18.6" rx="3.2" ry="2.4" transform="rotate(-20 10 18.6)" />
+        </>
+      )}
+    </svg>
+  );
+}
+
 function Playlist() {
   const [left, middle, right] = playlist.covers;
   return (
@@ -81,6 +119,35 @@ function Playlist() {
             style={{ rotate: 10 }}
             variants={{ hover: { y: -4 } }}
           />
+          {/* Music notes rising out of the record, staggered so one is always on its way. */}
+          {notes.map((n) => (
+            <span
+              key={n.delay}
+              aria-hidden="true"
+              className={`float-note absolute bottom-[148%] z-[6] ${n.className}`}
+              style={{ animationDelay: `${n.delay}s`, "--drift": n.drift } as CSSProperties}
+            >
+              <MusicNote double={n.double} />
+            </span>
+          ))}
+          {/* Record peeking out of the middle sleeve: spins slowly, slides out on hover. */}
+          <motion.div
+            aria-hidden="true"
+            className="absolute bottom-[58%] left-1/2 z-[5] aspect-square w-[33%] -translate-x-1/2"
+            variants={{ hover: { y: -22 } }}
+          >
+            <div className="spin-record relative size-full rounded-full bg-[repeating-radial-gradient(circle,#161616_0_1.5px,#262626_1.5px_3px)] shadow-[0_6px_18px_rgba(0,0,0,0.3)]">
+              <span className="absolute inset-0 rounded-full bg-[conic-gradient(from_30deg,transparent_0deg,rgba(255,255,255,0.14)_40deg,transparent_80deg,transparent_180deg,rgba(255,255,255,0.1)_220deg,transparent_260deg)]" />
+              <span className="absolute inset-[32%] overflow-hidden rounded-full ring-2 ring-black/40">
+                {middle.image ? (
+                  <Image src={middle.image} alt="" fill sizes="60px" className="object-cover" />
+                ) : (
+                  <span className={`absolute inset-0 bg-linear-to-br ${middle.gradient}`} />
+                )}
+              </span>
+              <span className="absolute left-1/2 top-1/2 size-[6%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#f4f4f4]" />
+            </div>
+          </motion.div>
           <Cover
             cover={middle}
             className="bottom-[14%] left-1/2 z-10 w-[35%] -translate-x-1/2 border-[3px] border-white shadow-[0_8px_20px_rgba(0,0,0,0.2)]"
@@ -154,6 +221,20 @@ function MapCard() {
         variants={{ hover: { scale: 1.07 } }}
       />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[58%] bg-linear-to-t from-[#fbfbfb] from-35% to-transparent" />
+      {/* Map pin with my photo, bobbing over a pulse where it points. */}
+      <span aria-hidden="true" className="absolute left-1/2 top-[38%] -translate-x-1/2">
+        {/* Ground: soft shadow and a slow pulse at the pin's tip. */}
+        <span className="absolute left-1/2 top-0 h-2 w-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-black/20 blur-[2px]" />
+        <span className="absolute left-1/2 top-0 size-10 -translate-x-1/2 -translate-y-1/2 animate-ping rounded-full bg-accent/25 [animation-duration:2.4s] motion-reduce:animate-none" />
+        {/* Teardrop: a square with one sharp corner, turned so the point faces down. */}
+        <span className="pin-bob absolute bottom-1 left-1/2 block -translate-x-1/2">
+          <span className="relative block size-12 -rotate-45 rounded-[50%_50%_50%_0] bg-accent p-[3px] shadow-[0_6px_16px_rgba(245,105,27,0.45)]">
+            <span className="relative block size-full rotate-45 overflow-hidden rounded-full border-2 border-white">
+              <Image src={site.avatar} alt="" fill sizes="48px" className="object-cover" />
+            </span>
+          </span>
+        </span>
+      </span>
       <div className="absolute inset-x-0 bottom-[7%] text-center">
         <p className="text-[1.25rem] font-semibold uppercase tracking-[0.3em]">
           {location.city}

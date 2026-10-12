@@ -1,16 +1,20 @@
 import * as motion from "motion/react-client";
-import { site } from "@/content/site";
+import { LocalTime } from "@/components/local-time";
+import { site, whatsappLink } from "@/content/site";
 import { card } from "@/lib/motion";
 
 // Dark call-to-action card used at the end of Services and on case-study pages.
 export function CtaCard({
   label,
+  quickPicks = false,
   eyebrow = "Something else?",
   title = "Not sure what you need yet?",
   body = "Tell me about the product or the problem. I’ll suggest the fastest path and give you a straight answer on cost and timeline.",
   className = "",
 }: {
   label?: string;
+  // Show the "I need…" chips that open WhatsApp with a pre-filled message.
+  quickPicks?: boolean;
   eyebrow?: string;
   title?: string;
   body?: string;
@@ -28,12 +32,15 @@ export function CtaCard({
         </span>
       )}
       <span className="absolute right-3 top-3 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[11px] font-medium">
-        <span className="size-2 rounded-full bg-green-400" />
+        <span className="relative flex size-2">
+          <span className="absolute inset-0 animate-ping rounded-full bg-green-400/70 motion-reduce:animate-none" />
+          <span className="relative size-2 rounded-full bg-green-400" />
+        </span>
         {site.availability}
       </span>
       <span
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-24 -right-20 size-72 rounded-full bg-[radial-gradient(circle,rgba(245,105,27,0.6),transparent_62%)] blur-2xl"
+        className="bg-drift pointer-events-none absolute -bottom-24 -right-20 size-72 rounded-full bg-[radial-gradient(circle,rgba(245,105,27,0.6),transparent_62%)] blur-2xl"
       />
 
       <p className="relative text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-400">
@@ -43,6 +50,30 @@ export function CtaCard({
         {title}
       </h3>
       <p className="relative mt-3 max-w-lg text-[13.5px] leading-[1.6] text-neutral-400">{body}</p>
+
+      {quickPicks && (
+        <div className="relative mt-6">
+          <p className="text-[11px] font-medium uppercase tracking-[0.14em] text-neutral-500">I need…</p>
+          <ul className="mt-2.5 flex flex-wrap gap-2">
+            {site.quickPicks.map((pick) => (
+              <li key={pick.label}>
+                <a
+                  href={whatsappLink(pick.message)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group inline-flex h-8 items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 text-[12.5px] font-medium text-neutral-200 transition-colors hover:border-white/30 hover:bg-white/15 hover:text-white"
+                >
+                  {pick.label}
+                  <span aria-hidden="true" className="text-neutral-500 transition-transform group-hover:translate-x-0.5 group-hover:text-white">
+                    &rarr;
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
       <div className="relative mt-auto flex flex-wrap items-center gap-4 pt-6">
         <a
           href={site.bookingUrl}
@@ -72,6 +103,23 @@ export function CtaCard({
           WhatsApp
         </a>
       </div>
+
+      {/* Reply time and live local time, for clients in other time zones. */}
+      <p className="relative mt-4 flex flex-wrap items-center gap-x-3 gap-y-1 text-[12px] text-neutral-400">
+        <span className="inline-flex items-center gap-1.5">
+          <svg viewBox="0 0 16 16" className="size-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M2.5 8.5l3.5 3.5 7.5-8" />
+          </svg>
+          {site.replyTime}
+        </span>
+        <span className="inline-flex items-center gap-1.5">
+          <svg viewBox="0 0 16 16" className="size-3.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+            <circle cx="8" cy="8" r="6.25" />
+            <path d="M8 4.75V8l2.25 1.5" />
+          </svg>
+          Nairobi · <LocalTime timeZone={site.timeZone.id} className="tabular-nums text-neutral-200" /> {site.timeZone.label}
+        </span>
+      </p>
     </motion.div>
   );
 }

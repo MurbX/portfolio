@@ -7,6 +7,7 @@ import { ProjectMedia } from "@/components/project-media";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { projects } from "@/content/projects";
+import { imageSize } from "@/lib/image-size";
 import { site } from "@/content/site";
 import { fadeUp, stagger } from "@/lib/motion";
 
@@ -39,7 +40,8 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
   if (index === -1) notFound();
 
   const project = projects[index];
-  const [hero, ...gallery] = project.gallery;
+  // Pixel sizes let each screenshot go in the right device and scroll if it's a long page.
+  const [hero, ...gallery] = project.gallery.map((item) => ({ ...item, ...imageSize(item.src) }));
   const prev = projects[(index - 1 + projects.length) % projects.length];
   const next = projects[(index + 1) % projects.length];
 
@@ -111,11 +113,11 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
             alt={hero.alt}
             frame={hero.frame}
             tint={project.tint}
+            imageWidth={hero.width}
+            imageHeight={hero.height}
             sizes="(min-width: 1152px) 1104px, 100vw"
             priority
-            className={`rounded-[22px] border border-black/[0.06] ${
-              hero.frame === "browser" ? "aspect-[16/10]" : "aspect-[16/9]"
-            }`}
+            className="aspect-[16/9] rounded-[22px] border border-black/[0.06]"
           />
         </motion.div>
 
@@ -211,8 +213,10 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
                     alt={item.alt}
                     frame={item.frame}
                     tint={project.tint}
+                    imageWidth={item.width}
+                    imageHeight={item.height}
                     sizes="(min-width: 640px) 50vw, 100vw"
-                    className="aspect-[16/10] rounded-[22px] border border-black/[0.06]"
+                    className="aspect-[4/3] rounded-[22px] border border-black/[0.06]"
                   />
                 </motion.div>
               ))}

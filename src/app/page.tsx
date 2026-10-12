@@ -4,6 +4,7 @@ import { Services } from "@/components/services";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { Testimonials } from "@/components/testimonials";
+import { Tools } from "@/components/tools";
 import { Work } from "@/components/work";
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
         <Bento />
         <Services />
         <Work />
+        <Tools />
         <Testimonials />
       </main>
       <SiteFooter />

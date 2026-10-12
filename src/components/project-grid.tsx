@@ -8,7 +8,7 @@ import { ProjectMedia } from "@/components/project-media";
 import type { Project } from "@/content/projects";
 
 // How many projects show before "Show all".
-const INITIAL = 5;
+const INITIAL = 6;
 
 export function ProjectGrid({ projects }: { projects: Project[] }) {
   const [expanded, setExpanded] = useState(false);

@@ -1,4 +1,12 @@
 // All personal details live here — edit this file, not the components.
+
+// WhatsApp number in international format, digits only.
+const whatsappNumber = "254721881858";
+
+// A wa.me link that opens a chat with a pre-filled message.
+export const whatsappLink = (message: string) =>
+  `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
 export const site = {
   name: "Brian Mutuku",
   firstName: "Brian",
@@ -13,14 +21,24 @@ export const site = {
   availability: "Open to work",
   // Swap for your Cal.com / Calendly link when you have one.
   bookingUrl: "mailto:brianmurb22@gmail.com",
-  // International format, digits only, plus an optional pre-filled message.
-  whatsappUrl:
-    "https://wa.me/254721881858?text=" +
-    encodeURIComponent("Hi Brian, I’d like to talk about a project."),
+  whatsappUrl: whatsappLink("Hi Brian, I’d like to talk about a project."),
+  replyTime: "Usually replies within an hour",
+  // Local time shown on the contact card, for clients in other time zones.
+  timeZone: { id: "Africa/Nairobi", label: "EAT" },
+  // "I need…" quick picks on the contact card; each opens WhatsApp with its message.
+  quickPicks: [
+    { label: "An MVP", message: "Hi Brian, I’d like help building an MVP." },
+    { label: "A web app", message: "Hi Brian, I’d like help building a web app." },
+    { label: "A mobile app", message: "Hi Brian, I’d like help building a mobile app." },
+    { label: "Move off no-code", message: "Hi Brian, I’d like to move my product off no-code." },
+    { label: "Integrations", message: "Hi Brian, I need help with APIs and integrations." },
+  ],
   // ​ (zero-width space) lets the line wrap right before the dash.
   tagline:
     "Feel free to explore my portfolio and reach out​—I’d love to connect!",
   avatar: "/avatar.jpg",
+  // Served from public/; the hero's "Resume" button downloads it.
+  resume: "/resume.pdf",
   description:
     "Full-stack developer from Kenya building web and mobile products for healthcare, fintech, proptech and community platforms since 2020.",
   // Menu links. Add { label: "Work", href: "#work" } etc. as those sections are built.
@@ -28,6 +46,7 @@ export const site = {
     { label: "Home", href: "/" },
     { label: "Services", href: "/#services" },
     { label: "Work", href: "/#work" },
+    { label: "Tools", href: "/#tools" },
     { label: "Testimonials", href: "/#testimonials" },
     { label: "Contact", href: "/#contact" },
   ],

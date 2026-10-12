@@ -27,9 +27,12 @@ const palette: Record<string, string> = {
   "amber-100": "#fef3c7",
   "amber-200": "#fde68a",
   "blue-100": "#dbeafe",
+  "blue-200": "#bfdbfe",
+  "cyan-100": "#cffafe",
   "cyan-200": "#a5f3fc",
   "emerald-200": "#a7f3d0",
   "fuchsia-200": "#f5d0fe",
+  "indigo-100": "#e0e7ff",
   "indigo-200": "#c7d2fe",
   "lime-100": "#ecfccb",
   "orange-100": "#ffedd5",
@@ -43,6 +46,7 @@ const palette: Record<string, string> = {
   "slate-100": "#f1f5f9",
   "slate-300": "#cbd5e1",
   "teal-100": "#ccfbf1",
+  "teal-200": "#99f6e4",
   "violet-100": "#ede9fe",
 };
 

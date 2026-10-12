@@ -1,11 +1,15 @@
 // Content for the bento cards under the hero. Edit freely.
 
+// Total projects delivered (more than the case studies on the site). Shown on the experience card.
+export const projectsDelivered = "15+";
+
 // Years for the middle entries are estimates — set your real timeline.
+// Newest first; the first entry is shown as the current role.
 export const experience = [
-  { title: "Full-Stack Developer", meta: "2025 - Next.js, TypeScript, Supabase" },
-  { title: "Solutions Architect", meta: "2023 - Fintech & proptech platforms" },
-  { title: "Product Builder", meta: "2021 - Healthcare & community apps" },
-  { title: "Started building apps", meta: "2020 - No-code: Bubble, FlutterFlow" },
+  { year: 2025, title: "Full-Stack Developer", detail: "Next.js, TypeScript, Supabase" },
+  { year: 2023, title: "Solutions Architect", detail: "Fintech & proptech platforms" },
+  { year: 2021, title: "Product Builder", detail: "Healthcare & community apps" },
+  { year: 2020, title: "Started building apps", detail: "No-code: Bubble, FlutterFlow" },
 ];
 
 type Cover = { gradient: string; image?: string; href?: string; label?: string };
