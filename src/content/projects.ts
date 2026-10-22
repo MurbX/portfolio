@@ -410,6 +410,7 @@ const entries: Project[] = [
     role: "Full-Stack Developer",
     year: "2026",
     type: "Web app",
+    liveUrl: "https://clutchai.co.il/",
     about: [
       "Clutch AI helps businesses produce advertising without a design team. A user sets up a brand (logo, colours and tone of voice, or pulled straight from their website), then creates projects from it: campaign creatives, ad copy, product images, video, stock photos and complete ad packages. Every result is scored, with concrete tips for making it perform better.",
       "I built it end to end: a Hebrew, right-to-left React 19 and TypeScript front end; a Supabase backend with row-level security, storage, realtime updates and Deno edge functions; image, text and video generation on Google Vertex AI (Gemini and Veo) with OpenAI as automatic failover; Stripe subscriptions with a 7-day free trial; and an admin area for revenue, plans, prompts, the ad library and error alerts.",
