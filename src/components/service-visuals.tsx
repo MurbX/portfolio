@@ -151,7 +151,7 @@ export function MobileVisual() {
     <div ref={ref} className="absolute inset-0 overflow-hidden">
       <motion.div key={run} initial="hidden" animate={play} className="absolute inset-0">
         {/* Android: same app, dark theme, behind. */}
-        <AndroidPhone className="absolute left-[4%] top-[19%] w-[38%] -rotate-[7deg]">
+        <AndroidPhone className="absolute left-[13%] top-[24%] w-[38%] -rotate-[13deg]">
           <div className="px-[7cqw] pt-[13cqw]">
             <p className="text-[4.5cqw] leading-none text-white/50">Good morning</p>
             <p className="mt-[1.5cqw] text-[6cqw] font-semibold leading-none">Brian</p>
