@@ -91,6 +91,8 @@ export function Menu() {
               </ul>
               <a
                 href={site.bookingUrl}
+                target="_blank"
+                rel="noreferrer"
                 className="mt-2 flex h-11 items-center justify-center rounded-full bg-foreground text-[15px] font-medium text-background transition-colors hover:bg-neutral-800"
               >
                 Book a call

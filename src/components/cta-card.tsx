@@ -77,6 +77,8 @@ export function CtaCard({
       <div className="relative mt-auto flex flex-wrap items-center gap-4 pt-6">
         <a
           href={site.bookingUrl}
+          target="_blank"
+          rel="noreferrer"
           className="inline-flex h-11 items-center rounded-full bg-white px-5 text-[14px] font-medium text-neutral-900 transition-colors hover:bg-neutral-200"
         >
           Book a call

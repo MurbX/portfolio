@@ -28,6 +28,8 @@ export function SiteFooter() {
             <div className="mt-6 flex flex-wrap gap-3">
               <a
                 href={site.bookingUrl}
+                target="_blank"
+                rel="noreferrer"
                 className="inline-flex h-11 items-center rounded-full bg-foreground px-5 text-[14px] font-medium text-background transition-colors hover:bg-neutral-800"
               >
                 Book a call

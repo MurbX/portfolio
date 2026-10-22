@@ -55,6 +55,8 @@ export function Hero() {
         <div className="flex flex-wrap items-center gap-3">
           <motion.a
             href={site.bookingUrl}
+            target="_blank"
+            rel="noreferrer"
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             className="inline-flex h-[54px] items-center rounded-full bg-foreground px-7 text-xl font-medium text-background transition-colors hover:bg-neutral-800"

@@ -19,8 +19,8 @@ export const site = {
   xHandle: "@MurbBrian_ke",
   email: "brianmurb22@gmail.com",
   availability: "Open to work",
-  // Swap for your Cal.com / Calendly link when you have one.
-  bookingUrl: "mailto:brianmurb22@gmail.com",
+  // "Book a call" buttons open the Project Consultation page on Cal.com.
+  bookingUrl: "https://cal.com/brian-mutuku-dev/30min",
   whatsappUrl: whatsappLink("Hi Brian, I’d like to talk about a project."),
   replyTime: "Usually replies within an hour",
   // Local time shown on the contact card, for clients in other time zones.
